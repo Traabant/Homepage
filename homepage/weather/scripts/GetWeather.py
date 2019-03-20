@@ -85,7 +85,7 @@ today = datetime.datetime.today().strftime("%Y-%m-%d")
 conection = create_connection_to_db(database)
 cursor = conection.cursor()
 last_row_id = cursor.lastrowid
-string_to_execute = "INSERT INTO weather_weather(weather_today, date) VALUES('%d','%s')" %(temperature_today_in_K, today)
+string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" %(temperature_today_in_K, today)
 cursor.execute(string_to_execute)
 
 conection.commit()
