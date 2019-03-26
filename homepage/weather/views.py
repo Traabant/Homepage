@@ -30,7 +30,7 @@ def weather(request):
     response = requests.get(url_json_file)
     air_pollution_data = json.loads(response.text)
     index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
-    #print("Kvalita ovzdusi je %s" % (analyze_air_polution(index_ostrava_portuba)))
+    # print("Kvalita ovzdusi je %s" % (analyze_air_polution(index_ostrava_portuba)))
 
     GetWeather.main()
     data_from_db = Weather2.objects.all().last()
@@ -48,5 +48,8 @@ def weather(request):
     #     'polution': 3,
     # }
 
-
     return render(request, 'weather/info.html', Data)
+
+
+def consumption(request):
+    return render(request, 'weather/consumption.html')

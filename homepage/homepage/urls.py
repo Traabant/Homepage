@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('blog.urls')),
     path('register/', user_views.register, name='register'),
     path('weather/', weather_views.weather, name='weather'),
+    path('weather/consumption/', weather_views.consumption, name='consumption'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('profile/', auth_views.LoginView.as_view(template_name='users/profile.html'), name='profile'),

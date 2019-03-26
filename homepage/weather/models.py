@@ -18,3 +18,15 @@ class Weather2(models.Model):
 
     def __str__(self):
         return self.weather_today
+
+
+class Consumption(models.Model):
+    date = models.TextField()
+    total_km = models.IntegerField()
+    traveled_km = models.IntegerField()
+    total_fuel = models.IntegerField()
+    curent_consuption = models.IntegerField()
+
+    def __str__(self):
+        return f'Last consumption was {self.curent_consuption}'
+
