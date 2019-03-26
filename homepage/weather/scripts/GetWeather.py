@@ -56,9 +56,8 @@ def main():
     index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
     # print("Kvalita ovzdusi je %s" % (analyze_air_polution(index_ostrava_portuba)))
 
-    # TODO: save index_ostrava_poruba to DB
+    # Done: save index_ostrava_poruba to DB
     # DONE: Download todays weather update
-    # TODO: make homepage shownig this data
 
     # odkaz pro stazeni aktualni informace o pocasi
     # muj Api klic f38cd70321c379afac4b55fb00a3be7a
