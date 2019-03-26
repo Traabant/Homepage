@@ -104,13 +104,14 @@ def main():
             current_fuel += float(list_with_correct_data[i][2])
             i += 1
         consumption = (current_fuel / total_mileage) * 100
+        date_added = list_with_correct_data[0][0]
         # print("Total fuel : %d liters" % current_fuel)
         # print("consumption : %.2f l*100km-1" % consumption)
 
         # dump_data_to_consumption_table(last_mileage, total_mileage, current_fuel, consumption)
 
         data_to_db = Consumption(
-            date=datetime.datetime.today().strftime("%Y-%m-%d"), total_km=last_mileage,
+            date=date_added, total_km=last_mileage,
             traveled_km=total_mileage, total_fuel=current_fuel, curent_consuption=consumption*100
         )
         data_to_db.save()
