@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Weather2
-from .scripts import GetWeather
+from .scripts import GetWeather, consuption
 import json
 import requests
 
@@ -52,4 +52,5 @@ def weather(request):
 
 
 def consumption(request):
+    consuption.main()
     return render(request, 'weather/consumption.html')

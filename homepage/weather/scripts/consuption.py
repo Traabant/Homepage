@@ -128,7 +128,7 @@ def main():
 
         data_to_db = Consumption(
             date=datetime.datetime.today().strftime("%Y-%m-%d"), total_km=last_mileage,
-            traveled_km=total_mileage, total_fuel=current_fuel, curent_consuption=consumption
+            traveled_km=total_mileage, total_fuel=current_fuel, curent_consuption=consumption*100
         )
         data_to_db.save()
 
