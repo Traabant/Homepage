@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Weather2
+from .scripts import GetWeather
 import json
 import requests
 
@@ -31,13 +32,21 @@ def weather(request):
     index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
     #print("Kvalita ovzdusi je %s" % (analyze_air_polution(index_ostrava_portuba)))
 
+    GetWeather.main()
+    data_from_db = Weather2.objects.all().last()
     temp_in_K = {
-        'temp': Weather2.objects.get().weather_today
+        'temp': data_from_db.weather_today
     }
     Data = {
         'tempC': float(temp_in_K['temp']) - 273.15,
-        'date': Weather2.objects.get().date,
+        'date': data_from_db.date,
         'polution': analyze_air_polution(index_ostrava_portuba)
     }
+    # Data = {
+    #     'tempC': 1,
+    #     'date': 2,
+    #     'polution': 3,
+    # }
+
 
     return render(request, 'weather/info.html', Data)

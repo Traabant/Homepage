@@ -25,7 +25,10 @@ SECRET_KEY = '$5t*l1^_g4ht^g-(3)j2d7qrx&=2-2%s0#ig(dy5ed3&e=5vq7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['traabant.pythonanywhere.com']
+ALLOWED_HOSTS = [
+    'traabant.pythonanywhere.com',
+    'localhost'
+                 ]
 
 
 # Application definition
@@ -120,7 +123,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = 'static'
+STATIC_URL = '/static/'
 STATIC_ROOT = "/home/Traabant/Homepage/Homepage/homepage/static/"
 
 LOGIN_REDIRECT_URL = 'blog-home'
