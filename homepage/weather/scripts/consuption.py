@@ -80,24 +80,7 @@ def delete_extra_characters(data_to_clean):
     return list_without_extra_chars
 
 
-def dump_data_to_consumption_table(total_km, traveled_km, totoal_fuel, ccurent_consuption):
 
-    # Dumps data into DB file,
-    # stores ID - autoincemnet, last state on speedometer, total distence traveled sice logging, total fuel put into car
-    # and last current consuption
-    # current consuption is multipliend by 100 to store deciaml places in INT fomr.
-
-
-    ccurent_consuption = ccurent_consuption * 100
-    today = datetime.datetime.today().strftime("%Y-%m-%d")
-
-    # string_to_execute = "INSERT INTO consumption(%s, %s, %s, %s, %s) VALUES('%s', '%d', '%d' , '%d', %d)" \
-    #                     % ('date', 'total_km', 'traveled_km', 'total_fuel', 'curent_consuption',
-    #                        today, total_km, traveled_km, totoal_fuel, ccurent_consuption)
-
-
-
-    
 def main():
     response = None
     url = 'https://drive.google.com/uc?export=download&id=1_CST2emrtNu1EGvq9h35byyHW1nmKxbu'
@@ -113,7 +96,7 @@ def main():
         last_mileage = int(list_with_correct_data[0][1])
         first_mileage = int(list_with_correct_data[-1][1])
         total_mileage = last_mileage - first_mileage
-        print("Total Traveled: %d km" % total_mileage)
+        # print("Total Traveled: %d km" % total_mileage)
 
         i = 0
         current_fuel = 0
@@ -121,8 +104,8 @@ def main():
             current_fuel += float(list_with_correct_data[i][2])
             i += 1
         consumption = (current_fuel / total_mileage) * 100
-        print("Total fuel : %d liters" % current_fuel)
-        print("consumption : %.2f l*100km-1" % consumption)
+        # print("Total fuel : %d liters" % current_fuel)
+        # print("consumption : %.2f l*100km-1" % consumption)
 
         # dump_data_to_consumption_table(last_mileage, total_mileage, current_fuel, consumption)
 

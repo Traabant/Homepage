@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Weather2
+from .models import Weather2, Consumption
 from .scripts import GetWeather, consuption
 import json
 import requests
@@ -52,5 +52,19 @@ def weather(request):
 
 
 def consumption(request):
-    consuption.main()
-    return render(request, 'weather/consumption.html')
+    data_from_db = Consumption.objects.all().last()
+    data = {
+        'date': data_from_db.date,
+        'total_km': data_from_db.total_km,
+        'traveled_km': data_from_db.traveled_km,
+        'total_fuel':data_from_db.total_fuel,
+        'curent_consuption': data_from_db.curent_consuption / 100,
+    }
+
+    if request.method == 'POST':
+        consuption.main()
+        return render(request, 'weather/consumption.html', data)
+
+    data_from_db = Consumption.objects.all().last()
+
+    return render(request, 'weather/consumption.html', data)

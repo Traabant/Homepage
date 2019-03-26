@@ -1,7 +1,14 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <button class="btn btn-outline-info" type="submit">RE-Calculate consumption</button>
+    </div>
+</form>
 <p>
-    place holder content
+    Posledni takovani probehlo {{ date }} celkovy najezd byl {{ total_kn }} a aktualni spotreba byla
+    {{ curent_consuption }} L/100Km
 </p>
 
 {% endblock %}
