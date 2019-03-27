@@ -235,7 +235,7 @@ def mainloop():
             db.dump_data_to_galerry_table(item, datetime.datetime.today().strftime("%Y-%m-%d"))
         print('Done')
 
-        # send_email(user, password, recipient, subject, body)
+        send_email(user, password, recipient, subject, body)
         print('poslal bych mail')
         print(body)
         log(body)
