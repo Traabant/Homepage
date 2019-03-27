@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import Weather2, Consumption
-from .scripts import GetWeather, consuption
+from .models import Weather2, Consumption, Events, Gallery
+from .scripts import GetWeather, consuption, check
 import json
 import requests
 
@@ -65,6 +65,17 @@ def consumption(request):
         consuption.main()
         return render(request, 'weather/consumption.html', data)
 
-    data_from_db = Consumption.objects.all().last()
-
     return render(request, 'weather/consumption.html', data)
+
+
+def events(request):
+    data= {
+        'gallery': Gallery.objects.all(),
+        'events': Events.objects.all()
+    }
+
+    if request.method == 'POST':
+        check.mainloop()
+        return render(request, 'weather/events.html')
+
+    return render(request, 'weather/events.html', data)

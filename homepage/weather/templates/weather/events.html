@@ -1,0 +1,35 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <button class="btn btn-outline-info" type="submit">Check events</button>
+    </div>
+</form>
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Evnets_list" aria-expanded="false" aria-controls="Gallery_list">
+    Show Events history
+</button>
+<div class="collapse" id="Evnets_list">
+    <div class="card card-body">
+        {% for event in events %}
+            <div>
+                {{ event.Date }} {{ event.Event }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Gallery_list" aria-expanded="false" aria-controls="Gallery_list">
+    Show Gallery history
+</button>
+<div class="collapse" id="Gallery_list">
+    <div class="card card-body">
+        {% for item in gallery %}
+        <div>
+            {{item.Date}} {{ item.Gallery }}
+        </div>
+{% endfor %}
+    </div>
+</div>
+
+{% endblock %}

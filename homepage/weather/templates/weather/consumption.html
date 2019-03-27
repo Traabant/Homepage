@@ -10,5 +10,10 @@
     Posledni takovani probehlo {{ date }} celkovy najezd byl {{ total_km }} km a aktualni spotreba byla
     {{ curent_consuption }} L/100Km
 </p>
-pip
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <button class="btn btn-outline-info" type="submit">CHECK EVENTS</button>
+    </div>
+</form>
 {% endblock %}
