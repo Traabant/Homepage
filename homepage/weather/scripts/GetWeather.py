@@ -72,10 +72,18 @@ def main():
     temperature_today_in_K = forcast_data["list"][0]['main']['temp_max']
     temperature_today_in_C = convert_K_to_C(temperature_today_in_K)
     # print("Dnesni teplota bude %.2f C" % temperature_today_in_C)
+    data_today_in_K = {
+        'date': forcast_data["list"][0]['dt_txt'],
+        'temp': temperature_today_in_K,
+    }
 
     temperature_tomorow_in_K = forcast_data["list"][8]['main']['temp_max']
     temperature_tomorow_in_C = convert_K_to_C(temperature_tomorow_in_K)
     # print("Zitrejsi teplota bude %.2f C" % temperature_tomorow_in_C)
+    data_tomorow_in_K = {
+        'date': forcast_data["list"][8]['dt_txt'],
+        'temp': temperature_tomorow_in_K,
+    }
 
     database = settings.BASE_DIR + "/db.sqlite3"
     # database = "D:\\SIBA\\Scripty\\Homepage\\homepage\\db.sqlite3"
@@ -85,7 +93,7 @@ def main():
     cursor = conection.cursor()
     last_row_id = cursor.lastrowid
     string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" % (
-    temperature_today_in_K, today)
+    data_today_in_K['temp'], data_today_in_K['date'])
     cursor.execute(string_to_execute)
 
     conection.commit()
