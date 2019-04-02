@@ -73,7 +73,7 @@ def main():
     temperature_today_in_C = convert_K_to_C(temperature_today_in_K)
     # print("Dnesni teplota bude %.2f C" % temperature_today_in_C)
     data_today_in_K = {
-        'date': forcast_data["list"][0]['dt_txt'],
+        'date': datetime.datetime.strptime(forcast_data["list"][0]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
         'temp': temperature_today_in_K,
     }
 
@@ -81,7 +81,7 @@ def main():
     temperature_tomorow_in_C = convert_K_to_C(temperature_tomorow_in_K)
     # print("Zitrejsi teplota bude %.2f C" % temperature_tomorow_in_C)
     data_tomorow_in_K = {
-        'date': forcast_data["list"][8]['dt_txt'],
+        'date': datetime.datetime.strptime(forcast_data["list"][8]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
         'temp': temperature_tomorow_in_K,
     }
 
@@ -93,7 +93,7 @@ def main():
     cursor = conection.cursor()
     last_row_id = cursor.lastrowid
     string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" % (
-    data_today_in_K['temp'], data_today_in_K['date'])
+    data_today_in_K['temp'], data_today_in_K['date'].strftime('%Y-%m-%d %H:%M:%S'))
     cursor.execute(string_to_execute)
 
     conection.commit()
