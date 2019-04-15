@@ -32,23 +32,26 @@ def weather(request):
     index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
     # print("Kvalita ovzdusi je %s" % (analyze_air_polution(index_ostrava_portuba)))
 
-    GetWeather.main()
-    data_from_db = Weather2.objects.all().last()
+    # GetWeather.main()
+    data_from_db = Weather2.objects.all().order_by('-id')[:3]
     temp_in_K = {
-        'temp': data_from_db.weather_today
-    }
-    Data = {
-        'tempC': float(temp_in_K['temp']) - 273.15,
-        'date': data_from_db.date,
+        'temp': data_from_db,
         'polution': analyze_air_polution(index_ostrava_portuba)
     }
-    # Data = {
-    #     'tempC': 1,
-    #     'date': 2,
-    #     'polution': 3,
-    # }
 
-    return render(request, 'weather/info.html', Data)
+    # converts temp data in list from K to C
+    for item in temp_in_K['temp']:
+        item.weather_today = str(float(item.weather_today) - 273.15)
+    # Data = {
+    #     'tempC': float(temp_in_K['temp']) - 273.15,
+    #     'date': data_from_db.date,
+    #     'polution': analyze_air_polution(index_ostrava_portuba)
+    # }
+    if request.method == 'POST':
+        GetWeather.main()
+        return render(request, 'weather/info.html', temp_in_K)
+
+    return render(request, 'weather/info.html', temp_in_K)
 
 
 def consumption(request):

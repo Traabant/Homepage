@@ -10,25 +10,28 @@
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Evnets_list" aria-expanded="false" aria-controls="Gallery_list">
     Show Events history
 </button>
-<div class="collapse" id="Evnets_list">
-    <div class="card card-body">
-        {% for event in events %}
-            <div>
-                {{ event.Date }} {{ event.Event }}
-            </div>
-        {% endfor %}
-    </div>
-</div>
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Gallery_list" aria-expanded="false" aria-controls="Gallery_list">
     Show Gallery history
 </button>
-<div class="collapse" id="Gallery_list">
+<div class="collapse" id="Evnets_list">
     <div class="card card-body">
-        {% for item in gallery %}
-        <div>
-            {{item.Date}} {{ item.Gallery }}
+        {% for event in events %}
+        <ul class="list-group">
+            <li>{{ event.Date }} {{ event.Event }}</li>
+        </ul>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="collapse" id="Gallery_list">
+    <div class="content-section">
+        <div class="card card-body">
+            <ul class="list-group">
+            {% for item in gallery %}
+                <li>{{item.Date}} {{ item.Gallery }}</li>
+            {% endfor %}
+            </ul>
         </div>
-{% endfor %}
     </div>
 </div>
 

@@ -5,6 +5,7 @@ import datetime
 from sqlite3 import Error
 from django.conf import settings
 
+
 def convert_K_to_C(temperatureK):
     temperatureC = temperatureK - 273.15
     return temperatureC
@@ -69,12 +70,16 @@ def main():
 
     response = requests.get(url_forcast)
     forcast_data = json.loads(response.text)
-    temperature_today_in_K = forcast_data["list"][0]['main']['temp_max']
-    temperature_today_in_C = convert_K_to_C(temperature_today_in_K)
+    # temperature_today_in_K = forcast_data["list"][0]['main']['temp_max']
+    # temperature_today_in_C = convert_K_to_C(temperature_today_in_K)
     # print("Dnesni teplota bude %.2f C" % temperature_today_in_C)
     data_today_in_K = {
-        'date': datetime.datetime.strptime(forcast_data["list"][0]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
-        'temp': temperature_today_in_K,
+        'date0': datetime.datetime.strptime(forcast_data["list"][0]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
+        'temp0': forcast_data["list"][0]['main']['temp_max'],
+        'date3': datetime.datetime.strptime(forcast_data["list"][1]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
+        'temp3': forcast_data["list"][1]['main']['temp_max'],
+        'date6': datetime.datetime.strptime(forcast_data["list"][2]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
+        'temp6': forcast_data["list"][2]['main']['temp_max'],
     }
 
     temperature_tomorow_in_K = forcast_data["list"][8]['main']['temp_max']
@@ -93,11 +98,16 @@ def main():
     cursor = conection.cursor()
     last_row_id = cursor.lastrowid
     string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" % (
-    data_today_in_K['temp'], data_today_in_K['date'].strftime('%Y-%m-%d %H:%M:%S'))
+    data_today_in_K['temp0'], data_today_in_K['date0'].strftime('%Y-%m-%d %H:%M:%S'))
+    cursor.execute(string_to_execute)
+    string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" % (
+    data_today_in_K['temp3'], data_today_in_K['date3'].strftime('%Y-%m-%d %H:%M:%S'))
+    cursor.execute(string_to_execute)
+    string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" % (
+    data_today_in_K['temp6'], data_today_in_K['date6'].strftime('%Y-%m-%d %H:%M:%S'))
     cursor.execute(string_to_execute)
 
     conection.commit()
 
     # print('Done')
-
 
