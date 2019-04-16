@@ -4,54 +4,17 @@ from .scripts import GetWeather, consuption, check
 import json
 import requests
 
-# Create your views here.
-
-def analyze_air_polution(polutin_index):
-    if polutin_index == 1:
-        return "Velmi dobra"
-    elif polutin_index == 2:
-        return "dobra"
-    elif polutin_index == 3:
-        return "uspokojiva"
-    elif polutin_index == 4:
-        return "vzhovujci"
-    elif polutin_index == 5:
-        return "spatna"
-    elif polutin_index == 6:
-        return "velmi spatna"
-    else:
-        return "Chyba spracovani"
+# Views
 
 
 def weather(request):
-    # temp is stored in Kelins in DB, must be converterd to C before send to template
-
-    url_json_file = 'http://portal.chmi.cz/files/portal/docs/uoco/web_generator/aqindex_cze.json'
-    response = requests.get(url_json_file)
-    air_pollution_data = json.loads(response.text)
-    index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
-    # print("Kvalita ovzdusi je %s" % (analyze_air_polution(index_ostrava_portuba)))
-
-    # GetWeather.main()
-    data_from_db = Weather2.objects.all().order_by('-id')[:3]
-    temp_in_K = {
-        'temp': data_from_db,
-        'polution': analyze_air_polution(index_ostrava_portuba)
-    }
-
-    # converts temp data in list from K to C
-    for item in temp_in_K['temp']:
-        item.weather_today = str(float(item.weather_today) - 273.15)
-    # Data = {
-    #     'tempC': float(temp_in_K['temp']) - 273.15,
-    #     'date': data_from_db.date,
-    #     'polution': analyze_air_polution(index_ostrava_portuba)
-    # }
+    data = get_weather_data_from_db()
     if request.method == 'POST':
         GetWeather.main()
-        return render(request, 'weather/info.html', temp_in_K)
+        data = get_weather_data_from_db()
+        return render(request, 'weather/info.html', data)
 
-    return render(request, 'weather/info.html', temp_in_K)
+    return render(request, 'weather/info.html', data)
 
 
 def consumption(request):
@@ -66,6 +29,14 @@ def consumption(request):
 
     if request.method == 'POST':
         consuption.main()
+        data_from_db = Consumption.objects.all().last()
+        data = {
+            'date': data_from_db.date,
+            'total_km': data_from_db.total_km,
+            'traveled_km': data_from_db.traveled_km,
+            'total_fuel': data_from_db.total_fuel,
+            'curent_consuption': data_from_db.curent_consuption / 100,
+        }
         return render(request, 'weather/consumption.html', data)
 
     return render(request, 'weather/consumption.html', data)
@@ -82,3 +53,62 @@ def events(request):
         return render(request, 'weather/events.html')
 
     return render(request, 'weather/events.html', data)
+
+##############################################
+#            supporting functions            #
+##############################################
+
+
+def analyze_air_polution(polutin_index):
+    """
+    :param polutin_index: index from JSON
+    :return: String
+    """
+    if polutin_index == 1:
+        return "Velmi dobra"
+    elif polutin_index == 2:
+        return "dobra"
+    elif polutin_index == 3:
+        return "uspokojiva"
+    elif polutin_index == 4:
+        return "vzhovujci"
+    elif polutin_index == 5:
+        return "spatna"
+    elif polutin_index == 6:
+        return "velmi spatna"
+    else:
+        return "Chyba spracovani"
+
+
+def get_weather_data_from_db():
+    """
+    temp is stored in Kelins in DB, must be converterd to C before returned
+    downloads JSON from CHMI Website
+    parsing it than selecting data for O-poruba only
+    :return: dict of list of temperaturs and current pollution data
+    """
+    #
+    url_json_file = 'http://portal.chmi.cz/files/portal/docs/uoco/web_generator/aqindex_cze.json'
+    response = requests.get(url_json_file)
+    air_pollution_data = json.loads(response.text)
+    index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
+
+    # gets data from DB
+    data_from_db = Weather2.objects.all().order_by('-id')[:3]
+
+    # turns Queryset object in to list, and then reverse it
+    list_from_db =[]
+    for item in data_from_db:
+        list_from_db.append(item)
+    list_from_db.reverse()
+
+    temp_in_K = {
+        'temp': list_from_db,
+        'polution': analyze_air_polution(index_ostrava_portuba)
+    }
+
+    # converts temp data in list from K to C
+    for item in temp_in_K['temp']:
+        item.weather_today = str(float(item.weather_today) - 273.15)
+
+    return temp_in_K
