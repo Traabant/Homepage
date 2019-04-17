@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load static from staticfiles %}
 {% block content %}
     <h1>Consumption</h1>
     <form method="POST">
@@ -9,11 +10,17 @@
     </form>
     <article class="media content-section">
         <div class="media-body">
-            <h4>Forecast for today</h4>
+            <h4>Current consumption </h4>
             <p>
                 Posledni takovani probehlo {{ date }} celkovy najezd byl {{ total_km }} km a aktualni spotreba byla
                 {{ curent_consuption }} L/100Km
             </p>
         </div>
     </article>
+    <div class="media content-section">
+        <div class="media-body">
+            <img src="{% static 'blog/graf.png' %}" width="85%" height="85%">
+        </div>
+    </div>
+
 {% endblock %}

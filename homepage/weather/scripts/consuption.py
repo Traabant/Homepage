@@ -18,6 +18,8 @@ import datetime
 import os
 from django.conf import settings
 from ..models import Consumption
+import matplotlib.pyplot as plt
+
 
 
 def create_connection_to_db(db_file):
@@ -80,6 +82,27 @@ def delete_extra_characters(data_to_clean):
     return list_without_extra_chars
 
 
+def histroy(list_with_correct_data):
+    grafLoacation = '/home/Traabant/Homepage/Homepage/homepage/blog/static/blog/graf.png'
+   #grafLoacation = "d:\\SIBA\\Scripty\\Homepage\\homepage\\blog\static\\blog\\graf.png"
+    consuption_history = []
+    index = 2
+    curent_fuel = float(list_with_correct_data[-1][2])
+    while index <= len(list_with_correct_data):
+        last_mileage = int(list_with_correct_data[-index][1])
+        first_mileage = int(list_with_correct_data[-1][1])
+        total_mileage = last_mileage - first_mileage
+        curent_fuel += float(list_with_correct_data[-index][2])
+        consumption = (curent_fuel / total_mileage) * 100
+        consuption_history.append(consumption)
+        index += 1
+    del consuption_history[0]   # first entry is off scale
+    fig = plt.figure()
+    line = fig.add_subplot(1, 1, 1)
+    line.plot(consuption_history)
+    plt.savefig(grafLoacation, dpi=430)
+    plt.show()
+
 
 def main():
     response = None
@@ -115,3 +138,4 @@ def main():
             traveled_km=total_mileage, total_fuel=current_fuel, curent_consuption=consumption*100
         )
         data_to_db.save()
+        histroy(list_with_correct_data)
