@@ -1,23 +1,28 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-<h1>Weater info</h1>
-<!--
-    <p>
-        Teplota dne {{ date }} bude {{ tempC }} C
-    </p>
-//-->
-<form method="POST">
-    {% csrf_token %}
-    <div class="form-group">
-        <button class="btn btn-outline-info" type="submit">Check forcast now</button>
-    </div>
-</form>
-{% for item in temp %}
-<p>
-    {{item.date}} {{item.weather_today}}
-</p>
+    <h1>Weater info</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Check forcast now</button>
+        </div>
+    </form>
+    <article class="media content-section">
+        <div class="media-body">
+            <h4>Forecast for today</h4>
+            {% for item in temp %}
+            <p>
+                {{item.date}} {{item.weather_today}}
+            </p>
+            {% endfor %}
+        </div>
+    </article>
+    <article class="media content-section">
+        <div class="media-body">
+            <h4>Aktualni kvalita ovzdusi</h4>
+            <p>Aktualni kvalita ovzdusi v Ostrave Porube je {{ polution }}</p>
+        </div>
+    </article>
 
-{% endfor %}
-    <p>Aktualni kvalita ovzdusi v Ostrave Porube je {{ polution }}</p>
     <img src="http://portal.chmi.cz/files/portal/docs/poboc/OS/KW/Captor/tmp/DMULTI-O1PORU01.gif" width="700">
 {% endblock %}

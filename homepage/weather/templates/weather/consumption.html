@@ -1,19 +1,19 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    <div class="form-group">
-        <button class="btn btn-outline-info" type="submit">RE-Calculate consumption</button>
-    </div>
-</form>
-<p>
-    Posledni takovani probehlo {{ date }} celkovy najezd byl {{ total_km }} km a aktualni spotreba byla
-    {{ curent_consuption }} L/100Km
-</p>
-<form method="POST">
-    {% csrf_token %}
-    <div class="form-group">
-        <button class="btn btn-outline-info" type="submit">CHECK EVENTS</button>
-    </div>
-</form>
+    <h1>Consumption</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">RE-Calculate consumption</button>
+        </div>
+    </form>
+    <article class="media content-section">
+        <div class="media-body">
+            <h4>Forecast for today</h4>
+            <p>
+                Posledni takovani probehlo {{ date }} celkovy najezd byl {{ total_km }} km a aktualni spotreba byla
+                {{ curent_consuption }} L/100Km
+            </p>
+        </div>
+    </article>
 {% endblock %}
