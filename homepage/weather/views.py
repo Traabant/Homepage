@@ -109,7 +109,7 @@ def get_weather_data_from_db():
     }
 
     # converts temp data in list from K to C
+    # uses f string formatting to show only two digits
     for item in temp_in_K['temp']:
-        item.weather_today = str(float(item.weather_today) - 273.15)
-
+        item.weather_today = f'{(float(item.weather_today) - 273.15):.2f}'
     return temp_in_K
