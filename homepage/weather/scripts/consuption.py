@@ -84,7 +84,7 @@ def delete_extra_characters(data_to_clean):
 
 def histroy(list_with_correct_data):
     grafLoacation = '/home/Traabant/Homepage/Homepage/homepage/blog/static/blog/graf.png'
-   #grafLoacation = "d:\\SIBA\\Scripty\\Homepage\\homepage\\blog\static\\blog\\graf.png"
+    # grafLoacation = "d:\\SIBA\\Scripty\\Homepage\\homepage\\blog\static\\blog\\graf.png"
     consuption_history = []
     index = 2
     curent_fuel = float(list_with_correct_data[-1][2])
@@ -101,7 +101,7 @@ def histroy(list_with_correct_data):
     line = fig.add_subplot(1, 1, 1)
     line.plot(consuption_history)
     plt.savefig(grafLoacation, dpi=430)
-    plt.show()
+    # plt.show()
 
 
 def main():

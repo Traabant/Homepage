@@ -104,7 +104,8 @@ def get_weather_data_from_db():
 
     temp_in_K = {
         'temp': list_from_db,
-        'polution': analyze_air_polution(index_ostrava_portuba)
+        'polution': analyze_air_polution(index_ostrava_portuba),
+        'polution_index': index_ostrava_portuba,
     }
 
     # converts temp data in list from K to C
