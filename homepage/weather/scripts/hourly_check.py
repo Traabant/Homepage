@@ -37,8 +37,7 @@ def get_pollution():
     string_to_execute = "INSERT INTO weather_pollution(datetime, pollution_index) VALUES('%s', '%d')" % (date_pullution, index_ostrava_portuba)
     cursor.execute(string_to_execute)
     conection.commit()
-    print('done')
-
+    print(f'Aktualni index {index_ostrava_portuba} z {date_pullution} stazeno {datetime.datetime.now()}')
 
 get_pollution()
 
