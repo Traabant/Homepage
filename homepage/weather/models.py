@@ -20,6 +20,14 @@ class Weather2(models.Model):
         return self.weather_today
 
 
+class Pollution(models.Model):
+    datetime = models.DateTimeField()
+    pollution_index = models.IntegerField()
+
+    def __str__(self):
+        return f'Last pollution entry was {self.pollution_index}'
+
+
 class Consumption(models.Model):
     date = models.TextField()
     total_km = models.IntegerField()

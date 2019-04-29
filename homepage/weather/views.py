@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Weather2, Consumption, Events, Gallery
+from .models import Weather2, Consumption, Events, Gallery, Pollution
 from .scripts import GetWeather, consuption, check
 import json
 import requests
@@ -62,30 +62,28 @@ def events(request):
 
 def get_weather_data_from_db():
     """
-    temp is stored in Kelins in DB, must be converterd to C before returned
-    downloads JSON from CHMI Website
-    parsing it than selecting data for O-poruba only
+    Gets todays forcast from DB from table weather_weather2.
+    temp is stored in Kelvins in DB, must be converterd to C before returned
+
+    Pollutin is pulled from DB prom table waether_pollution
     :return: dict of list of temperaturs and current pollution data
     """
-    #
-    url_json_file = 'http://portal.chmi.cz/files/portal/docs/uoco/web_generator/aqindex_cze.json'
-    response = requests.get(url_json_file)
-    air_pollution_data = json.loads(response.text)
-    index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
 
     # gets data from DB
-    data_from_db = Weather2.objects.all().order_by('-id')[:6]
+    temp_from_db = Weather2.objects.all().order_by('-id')[:6]
+    pollution_form_db = Pollution.objects.all().last()
 
     # turns Queryset object in to list, and then reverse it
     list_from_db =[]
-    for item in data_from_db:
+    for item in temp_from_db:
         list_from_db.append(item)
     list_from_db.reverse()
 
     temp_in_K = {
         'temp': list_from_db,
-        'polution': GetWeather.analyze_air_polution(index_ostrava_portuba),
-        'polution_index': index_ostrava_portuba,
+        'polution': GetWeather.analyze_air_polution(pollution_form_db.pollution_index),
+        'pollution_date': pollution_form_db.datetime,
+        'polution_index': pollution_form_db.pollution_index,
     }
 
     # converts temp data in list from K to C
