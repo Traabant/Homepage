@@ -146,8 +146,8 @@ class DbOperations:
     """
     def __init__(self, db_file):
         self.db_file = db_file
-        self.conection = self.create_connection_to_db()
-        self.cursor = self.conection.cursor()
+        self.connection = self.create_connection_to_db()
+        self.cursor = self.connection.cursor()
 
     def create_connection_to_db(self):
         """ create a database connection to the SQLite database
@@ -166,13 +166,13 @@ class DbOperations:
         string_to_execute = "INSERT INTO weather_events(%s, %s) VALUES('%s', '%s')" \
                             % ('Date', 'Event', event_date, event)
         self.cursor.execute(string_to_execute)
-        self.conection.commit()
+        self.connection.commit()
 
     def dump_data_to_galerry_table(self, gallery, gallery_date):
         string_to_execute = "INSERT INTO weather_gallery(%s, %s) VALUES('%s', '%s')" \
                             % ('Date', 'Gallery', gallery_date, gallery)
         self.cursor.execute(string_to_execute)
-        self.conection.commit()
+        self.connection.commit()
 
     def get_events_from_db(self, table):
         """
@@ -191,13 +191,13 @@ class DbOperations:
         string_to_execute = "INSERT INTO weather_pollution(datetime, pollution_index) VALUES('%s', '%d')" \
                             % (date_time, index)
         self.cursor.execute(string_to_execute)
-        self.conection.commit()
+        self.connection.commit()
 
     def dump_data_weather_table(self, temp, date):
         string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" \
                             % (temp, date)
         self.cursor.execute(string_to_execute)
-        self.conection.commit()
+        self.connection.commit()
 
 
 def check_events():
