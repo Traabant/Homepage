@@ -54,7 +54,9 @@ def main():
     response = requests.get(url_forcast)
     forcast_data = json.loads(response.text)
 
-    database = settings.BASE_DIR + "/db.sqlite3"
+    # database = settings.BASE_DIR + "/db.sqlite3"
+    fileDir = '/home/Traabant/Homepage/Homepage/homepage'
+    database = fileDir + '/db.sqlite3'
     # database = "D:\\SIBA\\Scripty\\Homepage\\homepage\\db.sqlite3"
     conection = create_connection_to_db(database)
     cursor = conection.cursor()
