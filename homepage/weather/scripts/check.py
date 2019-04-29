@@ -8,7 +8,10 @@ from sqlite3 import Error
 
 
 def send_email(user, pwd, recipient, subject, body):
-    # posila mail, neumi diakritiku
+    """
+    Sends email to recipients, log to log file if email was send or not
+
+    """
     import smtplib
 
     FROM = user
@@ -33,6 +36,9 @@ def send_email(user, pwd, recipient, subject, body):
 
 
 def log(event):
+    """
+    log envets to log file
+    """
     log_name = 'log.txt'
     time = datetime.datetime.now().strftime("%Y-%m-%d")
     obsah_log = '\n' + time + '\n' + event + '\n' + '********************************'
@@ -41,26 +47,20 @@ def log(event):
     file.close()
 
 
-def find_envents_in_hltml(html):
-    # vytvari list se vemi udalostni z lokalu,  pro debug
-    soup = BeautifulSoup(html, 'html.parser')
-    output = soup.find_all('p')
-    list = []
-    for item in output:
-        list.append(item.text)
-    return (list)
-
-
 def find_envents_in_url(url):
-    # stahne webovou stranku, a vrati list s udalostmi
+    """
+    downloads HTML, parse it and returns list with only parsed paragraps
+    :param url:
+    :return: correct_list
+    """
     try:
         resp = requests.get(url)
         soup = BeautifulSoup(resp.text, 'html.parser')
         output = soup.find_all('p')
-        list = []
+        correct_list = []
         for item in output:
-            list.append(item.text)
-        return (list)
+            correct_list.append(item.text)
+        return correct_list
     except:
         log("nepovedlo se stazeni informaci z webu")
 
@@ -70,25 +70,21 @@ def find_new_galery_in_url(url):
         resp = requests.get(url)
         soup = BeautifulSoup(resp.text, 'html.parser')
         output = soup.find_all('li')
-        list = []
-        # galaerie maja atribut data-cat="1"
+        list_to_return = []
         for item in output:
             if item.attrs.get("data-cat") == "1":
-                list.append(item.text[4:-3])
-        return (list)
+                list_to_return.append(item.text[4:-3])
+        return list_to_return
     except:
         log("nepovedlo se stazeni informaci z webu")
 
 
-def write_events_to_file(list, file):
-    file = open(file, "a", encoding="utf-8")
-    for item in list:
-        file.write(item + '\n')
-    file.close()
-
-
 def odstraneni_diakritiky(list):
-    # odstraneni diakritiky, kvuli omezeni posilani mailu
+    """
+    delets special characters from Czech language and converts them to ASCI
+    :param list:
+    :return: list
+    """
     list_to_return = []
     for item in list:
         item = unicodedata.normalize('NFKD', item)
@@ -97,18 +93,16 @@ def odstraneni_diakritiky(list):
             if not unicodedata.combining(c):
                 output += c
         list_to_return.append(output)
-    # print(list_to_return)
-    # del list_to_return[-1]
     return list_to_return
 
 
-class Compare():
+class Compare:
     """
-    compers two list, list goven in parametr is one that is parsed from dowloaded HTML
+    compers two list, list given in parameter is one that is parsed from dowloaded HTML
     the other one is pulled from DB of previous entries
     """
-    def __init__(self, list):
-        self.list = list
+    def __init__(self, list_to_compare):
+        self.list = list_to_compare
         self.status = False
 
     # porovna stazene udalosti s udalostmi nactenych ze souboru
@@ -117,20 +111,20 @@ class Compare():
         :param table: specifi table in DB for comparasion
         :return: returns new list of additional entries
         """
-        self.newEvents = []
+        self.new_events = []
         self.table = table
-        newEvents = []
-        db = DB_operations(db_file_name)
-        sourceFileLines = db.get_events_from_db(self.table)
-        badSTR = 'Railsformers s.r.o.'
-        biggerFileLen = len(self.list)
+        new_events = []
+        db = DbOperations(db_file_name)
+        source_file_lines = db.get_events_from_db(self.table)
+        bad_str = 'Railsformers s.r.o.'
+        bigger_file_len = len(self.list)
         i = 0
-        while i < biggerFileLen:
+        while i < bigger_file_len:
             listBackUp = self.list[i]
             # radek s copyrigth delal problem, proto vynecham
-            if not badSTR in self.list[i]:
+            if not bad_str in self.list[i]:
                 # self.list[i] = self.list[i] + '\n'
-                if self.list[i] in sourceFileLines:
+                if self.list[i] in source_file_lines:
                     # print('je rovno ' + listBackUp)
                     a = 1
                 elif listBackUp == '\\n':   # Vynechava prazdny radek
@@ -139,17 +133,15 @@ class Compare():
                     a = 1
                 else:
                     # print('neni rovno pro ' + listBackUp)
-                    newEvents.append(listBackUp)
+                    new_events.append(listBackUp)
                     self.status = True
             i += 1
-        self.newEvents = newEvents
+        self.new_events = new_events
 
 
-class DB_operations():
+class DbOperations:
     """
     class to manipulate SQlite DB, it can write new entries or give back all records in specific table
-    DB has only two tables: events and galerry
-    each table has ID, date and event gallery collum
     Class creates coneciton to DB when first called
     """
     def __init__(self, db_file):
@@ -195,9 +187,9 @@ class DB_operations():
             list_to_return.append(item[2])
         return list_to_return
 
-    def dump_data_pollution_table(self, datetime, index):
+    def dump_data_pollution_table(self, date_time, index):
         string_to_execute = "INSERT INTO weather_pollution(datetime, pollution_index) VALUES('%s', '%d')" \
-                            % (datetime, index)
+                            % (date_time, index)
         self.cursor.execute(string_to_execute)
         self.conection.commit()
 
@@ -209,9 +201,15 @@ class DB_operations():
 
 
 def check_events():
+    """
+    downloads two HTML sites, than parse them.
+    Parsed data gets compared to the data in DB,
+    new data is stored in DB and snd throw the mail
+    Script should be run periodically once a day
+    """
 
     url = 'http://www.msmartinov.cz/stranka71'
-    ulrGalery = "http://www.msmartinov.cz/galerie"
+    ulr_gallery = "http://www.msmartinov.cz/galerie"
 
     user = "siba.robot@gmail.com"
     password = "lplojiju321"
@@ -223,7 +221,7 @@ def check_events():
 
     print("downloading data")
     events = find_envents_in_url(url)
-    galery_list = find_new_galery_in_url(ulrGalery)
+    galery_list = find_new_galery_in_url(ulr_gallery)
 
     print("deleting special characters")
     events = odstraneni_diakritiky(events)
@@ -232,16 +230,16 @@ def check_events():
     print("comparing")
     compare = Compare(events)
     compare.compare('events')
-    events = compare.newEvents
+    events = compare.new_events
 
     galery_compare = Compare(galery_list)
     galery_compare.compare('gallery')
-    galery_list = galery_compare.newEvents
+    galery_list = galery_compare.new_events
 
     # write_events_to_file(events, eventsFile)
     # write_events_to_file(galery_list, galeryFile)
 
-    if (compare.status == True) or (galery_compare.status == True):
+    if (compare.status is True) or (galery_compare.status is True):
         body = "Nove udoalosti ve skolce jsou : \n"
         for line in events:
             body += line + '\n'
@@ -249,7 +247,7 @@ def check_events():
         body += "\nNove galerie jsou : \n"
         for line in galery_list:
             body += line + '\n'
-        db = DB_operations(db_file_name)
+        db = DbOperations(db_file_name)
         print("writing Events to DB")
         for item in events:
             db.dump_data_to_events_table(item, datetime.datetime.today().strftime("%Y-%m-%d"))
@@ -269,6 +267,10 @@ def check_events():
 
 
 def analyze_air_polution(polutin_index):
+    """
+    :param polutin_index: index from CHMI json data
+    :return: string corresponding to the index
+    """
     if polutin_index == 1:
         return "Velmi dobra"
     elif polutin_index == 2:
@@ -286,8 +288,13 @@ def analyze_air_polution(polutin_index):
 
 
 def get_pollution():
+    """
+    dwonloads Json data about pollution, than i gets parsed for just Ostrava
+    Parsed data is stored in DB
+    should be run periodically every hour
+    """
 
-    db = DB_operations(db_file_name)
+    db = DbOperations(db_file_name)
 
     url_json_file = 'http://portal.chmi.cz/files/portal/docs/uoco/web_generator/aqindex_cze.json'
     response = requests.get(url_json_file)
@@ -297,14 +304,11 @@ def get_pollution():
     date_pullution = datetime.datetime.strptime(date_pullution, '%Y-%m-%d %H:%M:%S.%f %Z')
     date_pullution = date_pullution + datetime.timedelta(hours=2)
     date_pullution = date_pullution.strftime('%Y-%m-%d %H:%M:%S')
-    db.dump_data_pollution_table(date_pullution,index_ostrava_portuba)
-    # string_to_execute = "INSERT INTO weather_pollution(datetime, pollution_index) VALUES('%s', '%d')" % (date_pullution, index_ostrava_portuba)
-    # db.cursor.execute(string_to_execute)
-    # db.conection.commit()
+    db.dump_data_pollution_table(date_pullution, index_ostrava_portuba)
     print(f'Aktualni index {index_ostrava_portuba} z {date_pullution} stazeno {datetime.datetime.now()}')
 
 
-def GetWeather():
+def get_weather():
     """
     Downloads focast for current day and stores it in DB
     data is pulled out of the DB in views when needed
@@ -315,19 +319,15 @@ def GetWeather():
     response = requests.get(url_forcast)
     forcast_data = json.loads(response.text)
 
-    db = DB_operations(db_file_name)
-
-    # conection = create_connection_to_db(database)
-    # cursor = conection.cursor()
-
+    db = DbOperations(db_file_name)
     index = 0
-    list_data_today_in_K = []
     while index <= 7:
-        data_today_in_K = {
+        data_today_in_kelvin = {
             'date': datetime.datetime.strptime(forcast_data["list"][index]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
             'temp': forcast_data["list"][index]['main']['temp_max'],
         }
-        db.dump_data_weather_table(data_today_in_K['temp'], data_today_in_K['date'].strftime('%Y-%m-%d %H:%M:%S'))
+        db.dump_data_weather_table(data_today_in_kelvin['temp'],
+                                   data_today_in_kelvin['date'].strftime('%Y-%m-%d %H:%M:%S'))
         index += 1
 
     print('weather downloaded')

@@ -10,7 +10,7 @@ import requests
 def weather(request):
     data = get_weather_data_from_db()
     if request.method == 'POST':
-        check.GetWeather()
+        check.get_weather()
         data = get_weather_data_from_db()
         return render(request, 'weather/info.html', data)
 
