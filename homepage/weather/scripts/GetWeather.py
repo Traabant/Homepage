@@ -3,7 +3,7 @@ import requests
 import sqlite3
 import datetime
 from sqlite3 import Error
-from django.conf import settings
+# from django.conf import settings
 
 
 def convert_K_to_C(temperatureK):
@@ -44,70 +44,39 @@ def create_connection_to_db(db_file):
 
 
 def main():
-    # Download JSON from CHMI
-    url_json_file = 'http://portal.chmi.cz/files/portal/docs/uoco/web_generator/aqindex_cze.json'
-    response = requests.get(url_json_file)
-    air_pollution_data = json.loads(response.text)
-
-    # offline version for debuging
-    # weather_input_file_path = "d:\\SIBA\\Scripty\\Projekt\\aqindex_cze.json"
-    # air_pollution_data = open(weather_input_file_path, "r", encoding="utf-8")
-    # json_data = json.load(air_pollution_data)
-
-    index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
-    # print("Kvalita ovzdusi je %s" % (analyze_air_polution(index_ostrava_portuba)))
-
-    # Done: save index_ostrava_poruba to DB
-    # DONE: Download todays weather update
-
-    # odkaz pro stazeni aktualni informace o pocasi
-    # muj Api klic f38cd70321c379afac4b55fb00a3be7a
-    # http://api.openweathermap.org/data/2.5/weather?q=ostrava&appid=f38cd70321c379afac4b55fb00a3be7a
-    # predpoved na tri dny
-    # http://api.openweathermap.org/data/2.5/forecast?q=ostrava&appid=f38cd70321c379afac4b55fb00a3be7a
+    """
+    Downloads focast for current day and stores it in DB
+    data is pulled out of the DB in views when needed
+    """
 
     url_forcast = 'http://api.openweathermap.org/data/2.5/forecast?q=ostrava&appid=f38cd70321c379afac4b55fb00a3be7a'
 
     response = requests.get(url_forcast)
     forcast_data = json.loads(response.text)
-    # temperature_today_in_K = forcast_data["list"][0]['main']['temp_max']
-    # temperature_today_in_C = convert_K_to_C(temperature_today_in_K)
-    # print("Dnesni teplota bude %.2f C" % temperature_today_in_C)
-    data_today_in_K = {
-        'date0': datetime.datetime.strptime(forcast_data["list"][0]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
-        'temp0': forcast_data["list"][0]['main']['temp_max'],
-        'date3': datetime.datetime.strptime(forcast_data["list"][1]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
-        'temp3': forcast_data["list"][1]['main']['temp_max'],
-        'date6': datetime.datetime.strptime(forcast_data["list"][2]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
-        'temp6': forcast_data["list"][2]['main']['temp_max'],
-    }
-
-    temperature_tomorow_in_K = forcast_data["list"][8]['main']['temp_max']
-    temperature_tomorow_in_C = convert_K_to_C(temperature_tomorow_in_K)
-    # print("Zitrejsi teplota bude %.2f C" % temperature_tomorow_in_C)
-    data_tomorow_in_K = {
-        'date': datetime.datetime.strptime(forcast_data["list"][8]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
-        'temp': temperature_tomorow_in_K,
-    }
 
     database = settings.BASE_DIR + "/db.sqlite3"
     # database = "D:\\SIBA\\Scripty\\Homepage\\homepage\\db.sqlite3"
-    today = datetime.datetime.today().strftime("%Y-%m-%d")
-
     conection = create_connection_to_db(database)
     cursor = conection.cursor()
-    last_row_id = cursor.lastrowid
-    string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" % (
-    data_today_in_K['temp0'], data_today_in_K['date0'].strftime('%Y-%m-%d %H:%M:%S'))
-    cursor.execute(string_to_execute)
-    string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" % (
-    data_today_in_K['temp3'], data_today_in_K['date3'].strftime('%Y-%m-%d %H:%M:%S'))
-    cursor.execute(string_to_execute)
-    string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" % (
-    data_today_in_K['temp6'], data_today_in_K['date6'].strftime('%Y-%m-%d %H:%M:%S'))
-    cursor.execute(string_to_execute)
 
-    conection.commit()
+    index = 0
+    list_data_today_in_K = []
+    while index <= 7:
+        data_today_in_K = {
+            'date': datetime.datetime.strptime(forcast_data["list"][index]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
+            'temp': forcast_data["list"][index]['main']['temp_max'],
+        }
 
-    # print('Done')
+        string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" % (
+            data_today_in_K['temp'], data_today_in_K['date'].strftime('%Y-%m-%d %H:%M:%S'))
+        list_data_today_in_K.append(data_today_in_K)
+        cursor.execute(string_to_execute)
+        conection.commit()
+
+        index += 1
+
+    print('weather downloaded')
+
+
+
 

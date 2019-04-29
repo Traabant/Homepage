@@ -59,26 +59,6 @@ def events(request):
 ##############################################
 
 
-def analyze_air_polution(polutin_index):
-    """
-    :param polutin_index: index from JSON
-    :return: String
-    """
-    if polutin_index == 1:
-        return "Velmi dobra"
-    elif polutin_index == 2:
-        return "dobra"
-    elif polutin_index == 3:
-        return "uspokojiva"
-    elif polutin_index == 4:
-        return "vzhovujci"
-    elif polutin_index == 5:
-        return "spatna"
-    elif polutin_index == 6:
-        return "velmi spatna"
-    else:
-        return "Chyba spracovani"
-
 
 def get_weather_data_from_db():
     """
@@ -94,7 +74,7 @@ def get_weather_data_from_db():
     index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
 
     # gets data from DB
-    data_from_db = Weather2.objects.all().order_by('-id')[:3]
+    data_from_db = Weather2.objects.all().order_by('-id')[:6]
 
     # turns Queryset object in to list, and then reverse it
     list_from_db =[]
@@ -104,7 +84,7 @@ def get_weather_data_from_db():
 
     temp_in_K = {
         'temp': list_from_db,
-        'polution': analyze_air_polution(index_ostrava_portuba),
+        'polution': GetWeather.analyze_air_polution(index_ostrava_portuba),
         'polution_index': index_ostrava_portuba,
     }
 

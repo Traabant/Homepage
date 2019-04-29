@@ -250,9 +250,9 @@ ulrGalery = "http://www.msmartinov.cz/galerie"
 # absFilePath = os.path.abspath(__file__)
 # fileDir = os.path.dirname(os.path.abspath(__file__))
 
-#fileDir = '/home/Traabant/Homepage/Homepage/homepage'
-#db_file_name = fileDir + '/db.sqlite3'
-db_file_name = 'D:\SIBA\Scripty\Homepage\homepage\db.sqlite3'
+fileDir = '/home/Traabant/Homepage/Homepage/homepage'
+db_file_name = fileDir + '/db.sqlite3'
+# db_file_name = 'D:\SIBA\Scripty\Homepage\homepage\db.sqlite3'
 
 # db_file_name = 'MS_events.db'
 # eventsFile = 'events_history.txt'
@@ -265,4 +265,3 @@ recipient = [
     "kristyna.sibova@gmail.com"
 ]
 
-mainloop()
