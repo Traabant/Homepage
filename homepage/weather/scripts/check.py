@@ -213,12 +213,6 @@ def check_events():
     url = 'http://www.msmartinov.cz/stranka71'
     ulrGalery = "http://www.msmartinov.cz/galerie"
 
-    # absFilePath = os.path.abspath(__file__)
-    # fileDir = os.path.dirname(os.path.abspath(__file__))
-
-    # db_file_name = 'MS_events.db'
-    # eventsFile = 'events_history.txt'
-    # galeryFile = 'galery_history.txt'
     user = "siba.robot@gmail.com"
     password = "lplojiju321"
     subject = "Nove udalosti MS"
@@ -264,7 +258,7 @@ def check_events():
             db.dump_data_to_galerry_table(item, datetime.datetime.today().strftime("%Y-%m-%d"))
         print('Done')
 
-        # send_email(user, password, recipient, subject, body)
+        send_email(user, password, recipient, subject, body)
         print('poslal bych mail')
         print(body)
         log(body)
