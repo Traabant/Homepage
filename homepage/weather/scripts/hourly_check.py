@@ -23,7 +23,7 @@ def create_connection_to_db(db_file):
 def get_pollution():
     fileDir = '/home/Traabant/Homepage/Homepage/homepage'
     db_file_name = fileDir + '/db.sqlite3'
-    db_file_name = 'D:\SIBA\Scripty\Homepage\homepage\db.sqlite3'
+    # db_file_name = 'D:\SIBA\Scripty\Homepage\homepage\db.sqlite3'
     conection = create_connection_to_db(db_file_name)
     cursor = conection.cursor()
 
