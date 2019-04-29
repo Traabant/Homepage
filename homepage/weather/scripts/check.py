@@ -1,9 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 import unicodedata
-import os.path
 import datetime
 import sqlite3
+import json
 from sqlite3 import Error
 
 
@@ -195,8 +195,37 @@ class DB_operations():
             list_to_return.append(item[2])
         return list_to_return
 
+    def dump_data_pollution_table(self, datetime, index):
+        string_to_execute = "INSERT INTO weather_pollution(datetime, pollution_index) VALUES('%s', '%d')" \
+                            % (datetime, index)
+        self.cursor.execute(string_to_execute)
+        self.conection.commit()
 
-def mainloop():
+    def dump_data_weather_table(self, temp, date):
+        string_to_execute = "INSERT INTO weather_weather2(weather_today, date) VALUES('%.01f','%s')" \
+                            % (temp, date)
+        self.cursor.execute(string_to_execute)
+        self.conection.commit()
+
+
+def check_events():
+
+    url = 'http://www.msmartinov.cz/stranka71'
+    ulrGalery = "http://www.msmartinov.cz/galerie"
+
+    # absFilePath = os.path.abspath(__file__)
+    # fileDir = os.path.dirname(os.path.abspath(__file__))
+
+    # db_file_name = 'MS_events.db'
+    # eventsFile = 'events_history.txt'
+    # galeryFile = 'galery_history.txt'
+    user = "siba.robot@gmail.com"
+    password = "lplojiju321"
+    subject = "Nove udalosti MS"
+    recipient = [
+        "david.siba@gmail.com",
+        "kristyna.sibova@gmail.com"
+    ]
 
     print("downloading data")
     events = find_envents_in_url(url)
@@ -244,24 +273,72 @@ def mainloop():
         log('nejsou nove udalosti')
         print('No new Events')
 
-url = 'http://www.msmartinov.cz/stranka71'
-ulrGalery = "http://www.msmartinov.cz/galerie"
 
-# absFilePath = os.path.abspath(__file__)
-# fileDir = os.path.dirname(os.path.abspath(__file__))
+def analyze_air_polution(polutin_index):
+    if polutin_index == 1:
+        return "Velmi dobra"
+    elif polutin_index == 2:
+        return "dobra"
+    elif polutin_index == 3:
+        return "uspokojiva"
+    elif polutin_index == 4:
+        return "vzhovujci"
+    elif polutin_index == 5:
+        return "spatna"
+    elif polutin_index == 6:
+        return "velmi spatna"
+    else:
+        return "Chyba spracovani"
+
+
+def get_pollution():
+
+    db = DB_operations(db_file_name)
+
+    url_json_file = 'http://portal.chmi.cz/files/portal/docs/uoco/web_generator/aqindex_cze.json'
+    response = requests.get(url_json_file)
+    air_pollution_data = json.loads(response.text)
+    index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
+    date_pullution = air_pollution_data['States'][0]['DateFromUTC']
+    date_pullution = datetime.datetime.strptime(date_pullution, '%Y-%m-%d %H:%M:%S.%f %Z')
+    date_pullution = date_pullution + datetime.timedelta(hours=2)
+    date_pullution = date_pullution.strftime('%Y-%m-%d %H:%M:%S')
+    db.dump_data_pollution_table(date_pullution,index_ostrava_portuba)
+    # string_to_execute = "INSERT INTO weather_pollution(datetime, pollution_index) VALUES('%s', '%d')" % (date_pullution, index_ostrava_portuba)
+    # db.cursor.execute(string_to_execute)
+    # db.conection.commit()
+    print(f'Aktualni index {index_ostrava_portuba} z {date_pullution} stazeno {datetime.datetime.now()}')
+
+
+def GetWeather():
+    """
+    Downloads focast for current day and stores it in DB
+    data is pulled out of the DB in views when needed
+    """
+
+    url_forcast = 'http://api.openweathermap.org/data/2.5/forecast?q=ostrava&appid=f38cd70321c379afac4b55fb00a3be7a'
+
+    response = requests.get(url_forcast)
+    forcast_data = json.loads(response.text)
+
+    db = DB_operations(db_file_name)
+
+    # conection = create_connection_to_db(database)
+    # cursor = conection.cursor()
+
+    index = 0
+    list_data_today_in_K = []
+    while index <= 7:
+        data_today_in_K = {
+            'date': datetime.datetime.strptime(forcast_data["list"][index]['dt_txt'], '%Y-%m-%d %H:%M:%S'),
+            'temp': forcast_data["list"][index]['main']['temp_max'],
+        }
+        db.dump_data_weather_table(data_today_in_K['temp'], data_today_in_K['date'].strftime('%Y-%m-%d %H:%M:%S'))
+        index += 1
+
+    print('weather downloaded')
+
 
 fileDir = '/home/Traabant/Homepage/Homepage/homepage'
 db_file_name = fileDir + '/db.sqlite3'
 # db_file_name = 'D:\SIBA\Scripty\Homepage\homepage\db.sqlite3'
-
-# db_file_name = 'MS_events.db'
-# eventsFile = 'events_history.txt'
-# galeryFile = 'galery_history.txt'
-user = "siba.robot@gmail.com"
-password = "lplojiju321"
-subject = "Nove udalosti MS"
-recipient = [
-    "david.siba@gmail.com",
-    "kristyna.sibova@gmail.com"
-]
-

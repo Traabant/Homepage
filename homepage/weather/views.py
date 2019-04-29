@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Weather2, Consumption, Events, Gallery, Pollution
-from .scripts import GetWeather, consuption, check
+from .scripts import consuption, check
 import json
 import requests
 
@@ -10,7 +10,7 @@ import requests
 def weather(request):
     data = get_weather_data_from_db()
     if request.method == 'POST':
-        GetWeather.main()
+        check.GetWeather()
         data = get_weather_data_from_db()
         return render(request, 'weather/info.html', data)
 
@@ -49,7 +49,7 @@ def events(request):
     }
 
     if request.method == 'POST':
-        check.mainloop()
+        check.check_events()
         return render(request, 'weather/events.html')
 
     return render(request, 'weather/events.html', data)
@@ -81,7 +81,7 @@ def get_weather_data_from_db():
 
     temp_in_K = {
         'temp': list_from_db,
-        'polution': GetWeather.analyze_air_polution(pollution_form_db.pollution_index),
+        'polution': check.analyze_air_polution(pollution_form_db.pollution_index),
         'pollution_date': pollution_form_db.datetime,
         'polution_index': pollution_form_db.pollution_index,
     }

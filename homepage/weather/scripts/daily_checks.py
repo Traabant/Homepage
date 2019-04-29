@@ -1,5 +1,4 @@
 import check
-import GetWeather
 
-check.mainloop()
-GetWeather.main()
+check.check_events()
+check.GetWeather()
