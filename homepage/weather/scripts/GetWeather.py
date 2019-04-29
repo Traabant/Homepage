@@ -3,7 +3,7 @@ import requests
 import sqlite3
 import datetime
 from sqlite3 import Error
-# from django.conf import settings
+from django.conf import settings
 
 
 def convert_K_to_C(temperatureK):
