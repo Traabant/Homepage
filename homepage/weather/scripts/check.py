@@ -304,7 +304,9 @@ def get_pollution():
     date_pullution = datetime.datetime.strptime(date_pullution, '%Y-%m-%d %H:%M:%S.%f %Z')
     date_pullution = date_pullution + datetime.timedelta(hours=2)
     date_pullution = date_pullution.strftime('%Y-%m-%d %H:%M:%S')
-    db.dump_data_pollution_table(date_pullution, index_ostrava_portuba)
+    if index_ostrava_portuba != 0:
+        db.dump_data_pollution_table(date_pullution, index_ostrava_portuba)
+        print("data saved in DB")
     print(f'Aktualni index {index_ostrava_portuba} z {date_pullution} stazeno {datetime.datetime.now()}')
 
 

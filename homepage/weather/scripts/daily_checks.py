@@ -1,4 +1,4 @@
 import check
 
 check.check_events()
-check.GetWeather()
+check.get_weather()
