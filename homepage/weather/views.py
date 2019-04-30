@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from .models import Weather2, Consumption, Events, Gallery, Pollution
 from .scripts import consuption, check
-import json
-import requests
+
 
 # Views
 
@@ -70,7 +69,7 @@ def get_weather_data_from_db():
     """
 
     # gets data from DB
-    temp_from_db = Weather2.objects.all().order_by('-id')[:6]
+    temp_from_db = Weather2.objects.all().order_by('-id')[:8]
     pollution_form_db = Pollution.objects.all().last()
 
     # turns Queryset object in to list, and then reverse it
