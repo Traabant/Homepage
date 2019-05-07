@@ -97,9 +97,7 @@ def get_weather_data_from_db():
     for item in temp_in_K['temp']:
         item.weather_today = f'{(float(item.weather_today) - 273.15):.2f}'
     for item in temp_in_K['temp_tomorrow']:
-        print(item.weather_tomorrow)
         item.weather_tomorrow = f'{(float(item.weather_tomorrow) - 273.15):.2f}'
-        print(item.weather_tomorrow)
 
     return temp_in_K
 
