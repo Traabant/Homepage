@@ -1,25 +1,29 @@
 {% extends 'blog/base.html' %}
 {% load static from staticfiles %}
 {% block content %}
-    <h1>Consumption</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">RE-Calculate consumption</button>
-        </div>
-    </form>
-    <article class="media content-section">
-        <div class="media-body">
-            <h4>Current consumption </h4>
-            <p>
-                Posledni takovani probehlo {{ date }} celkovy najezd byl {{ total_km }} km a aktualni spotreba byla
-                {{ curent_consuption }} L/100Km
-            </p>
-        </div>
-    </article>
-    <div class="media content-section">
-        <div class="media-body">
-            <img src="{% static 'blog/graf.png' %}" width="85%" height="85%">
+    <div class="col-md-12">
+        <h1>Consumption</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">RE-Calculate consumption</button>
+            </div>
+        </form>
+        <article class="media content-section">
+            <div class="media-body">
+                <h4>Current consumption </h4>
+                <p>
+                    Posledni takovani probehlo {{ date }} celkovy najezd byl {{ total_km }} km a aktualni spotreba byla
+                    {{ curent_consuption }} L/100Km
+                </p>
+            </div>
+        </article>
+    </div>
+    <div class="col-md-12">
+        <div class="media content-section">
+            <div class="media-body">
+                <img src="{% static 'blog/graf.png' %}" width="85%" height="85%">
+            </div>
         </div>
     </div>
 

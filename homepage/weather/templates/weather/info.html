@@ -1,6 +1,9 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+<div class="col-md-12">
     <h1>Weater info</h1>
+</div>
+<div class="col-md-12">
     <form method="POST">
         {% csrf_token %}
         <div class="form-group">
@@ -17,6 +20,8 @@
             {% endfor %}
         </div>
     </article>
+</div>
+<div class="col-md-12">
     <article class="media content-section">
         <div class="media-body">
             <h4>Aktualni kvalita ovzdusi</h4>
@@ -29,5 +34,5 @@
             <img src="http://portal.chmi.cz/files/portal/docs/poboc/OS/KW/Captor/tmp/DMULTI-O1PORU01.gif" width="85%" height="85%">
         </div>
     </div>
-
+</div>
 {% endblock %}
