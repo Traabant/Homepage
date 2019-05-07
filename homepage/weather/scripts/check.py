@@ -199,6 +199,13 @@ class DbOperations:
         self.cursor.execute(string_to_execute)
         self.connection.commit()
 
+    def dump_data_weather_forcast_table(self, temp, date, date_added):
+        string_to_execute = "INSERT INTO weather_Weather_forcast(weather_tomorrow, date_tomorrow, date_added)\
+         VALUES('%.01f','%s', '%s')" \
+                            % (temp, date, date_added)
+        self.cursor.execute(string_to_execute)
+        self.connection.commit()
+
 
 def check_events():
     """
@@ -331,6 +338,18 @@ def get_weather():
         db.dump_data_weather_table(data_today_in_kelvin['temp'],
                                    data_today_in_kelvin['date'].strftime('%Y-%m-%d %H:%M:%S'))
         index += 1
+    index = 8
+    while index <= 15:
+        data_tomorrow_in_kelvin = {
+            'date_added': datetime.datetime.now(),
+            'date_tomorrow': datetime.datetime.strptime(forcast_data["list"][index]['dt_txt'], '%Y-%m-%d %H:%M:%S') ,
+            'temp': forcast_data["list"][index]['main']['temp_max'],
+        }
+        index += 1
+        db.dump_data_weather_forcast_table(data_tomorrow_in_kelvin['temp'],
+                                           data_tomorrow_in_kelvin['date_tomorrow'],
+                                           data_tomorrow_in_kelvin['date_added']
+                                           )
 
     print('weather downloaded')
 

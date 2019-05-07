@@ -20,6 +20,11 @@ class Weather2(models.Model):
         return self.weather_today
 
 
+class Weather_forcast(models.Model):
+    date_added = models.TextField()
+    date_tomorrow = models.TextField()
+    weather_tomorrow = models.TextField()
+
 class Pollution(models.Model):
     datetime = models.DateTimeField()
     pollution_index = models.IntegerField()

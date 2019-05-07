@@ -10,6 +10,9 @@
             <button class="btn btn-outline-info" type="submit">Check forcast now</button>
         </div>
     </form>
+</div>
+<div class="col-md-4">
+
     <article class="media content-section">
         <div class="media-body">
             <h4>Forecast for today</h4>
@@ -21,7 +24,19 @@
         </div>
     </article>
 </div>
-<div class="col-md-12">
+<div class="col-md-4">
+    <article class="media content-section">
+        <div class="media-body">
+            <h4>Forecast for tomorrow</h4>
+            {% for item in temp %}
+            <p>
+                {{item.date}} {{item.weather_today}}°C
+            </p>
+            {% endfor %}
+        </div>
+    </article>
+</div>
+<div class="col-md-4">
     <article class="media content-section">
         <div class="media-body">
             <h4>Aktualni kvalita ovzdusi</h4>
@@ -29,6 +44,8 @@
             <small class="text-muted">Posledni kontrola kvlaity probehla {{ pollution_date }}</small>
         </div>
     </article>
+</div>
+<div class="col-md-12">
     <div class="media content-section">
         <div class="media-body">
             <img src="http://portal.chmi.cz/files/portal/docs/poboc/OS/KW/Captor/tmp/DMULTI-O1PORU01.gif" width="85%" height="85%">
