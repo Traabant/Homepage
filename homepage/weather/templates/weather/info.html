@@ -28,9 +28,9 @@
     <article class="media content-section">
         <div class="media-body">
             <h4>Forecast for tomorrow</h4>
-            {% for item in temp %}
+            {% for item in temp_tomorrow %}
             <p>
-                {{item.date}} {{item.weather_today}}°C
+                {{item.date_tomorrow}} {{item.weather_tomorrow}}°C
             </p>
             {% endfor %}
         </div>

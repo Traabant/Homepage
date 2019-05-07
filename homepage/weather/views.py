@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Weather2, Consumption, Events, Gallery, Pollution
+from .models import Weather2, Consumption, Events, Gallery, Pollution, Weather_forcast
 from .scripts import consuption, check
 
 
@@ -65,21 +65,28 @@ def get_weather_data_from_db():
     temp is stored in Kelvins in DB, must be converterd to C before returned
 
     Pollutin is pulled from DB prom table waether_pollution
-    :return: dict of list of temperaturs and current pollution data
+    :return: dict of list of temperaturs for today and tomorow and current pollution data
     """
 
-    # gets data from DB
+    # gets data for today from DB
     temp_from_db = Weather2.objects.all().order_by('-id')[:8]
+    temp_tomorrow_from_db = Weather_forcast.objects.all().order_by('-id')[:8]
     pollution_form_db = Pollution.objects.all().last()
 
     # turns Queryset object in to list, and then reverse it
-    list_from_db =[]
+    list_from_db_today = []
     for item in temp_from_db:
-        list_from_db.append(item)
-    list_from_db.reverse()
+        list_from_db_today.append(item)
+    list_from_db_today.reverse()
+
+    list_from_db_tomorrow = []
+    for item in temp_tomorrow_from_db:
+        list_from_db_tomorrow.append(item)
+    list_from_db_tomorrow.reverse()
 
     temp_in_K = {
-        'temp': list_from_db,
+        'temp': list_from_db_today,
+        'temp_tomorrow': list_from_db_tomorrow,
         'polution': check.analyze_air_polution(pollution_form_db.pollution_index),
         'pollution_date': pollution_form_db.datetime,
         'polution_index': pollution_form_db.pollution_index,
@@ -89,4 +96,13 @@ def get_weather_data_from_db():
     # uses f string formatting to show only two digits
     for item in temp_in_K['temp']:
         item.weather_today = f'{(float(item.weather_today) - 273.15):.2f}'
+    for item in temp_in_K['temp_tomorrow']:
+        print(item.weather_tomorrow)
+        item.weather_tomorrow = f'{(float(item.weather_tomorrow) - 273.15):.2f}'
+        print(item.weather_tomorrow)
+
     return temp_in_K
+
+
+
+
