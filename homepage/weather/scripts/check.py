@@ -403,7 +403,7 @@ def yesterdays_radar_data():
     time = datetime.datetime.strptime(today_sting, '%Y-%m-%d %H:%M')
     timedelta_days_to_add = datetime.timedelta(days=-1)
     timedelta_minutes_to_add = datetime.timedelta(minutes=10)
-    # time = time + timedelta_days_to_add
+    time = time + timedelta_days_to_add
     working_date = time
 
     todays_dir = 'radar_pictures/' + working_date.strftime('%Y%m%d')
