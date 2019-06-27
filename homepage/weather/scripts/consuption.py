@@ -19,6 +19,7 @@ import os
 from django.conf import settings
 from ..models import Consumption
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 
@@ -85,7 +86,10 @@ def delete_extra_characters(data_to_clean):
 def histroy(list_with_correct_data):
     grafLoacation = '/home/Traabant/Homepage/Homepage/homepage/blog/static/blog/graf.png'
     # grafLoacation = "d:\\SIBA\\Scripty\\Homepage\\homepage\\blog\static\\blog\\graf.png"
-    consuption_history = []
+    consuption_history = {
+        "consuption": [],
+        "date": [],
+    }
     index = 2
     curent_fuel = float(list_with_correct_data[-1][2])
     while index <= len(list_with_correct_data):
@@ -94,12 +98,27 @@ def histroy(list_with_correct_data):
         total_mileage = last_mileage - first_mileage
         curent_fuel += float(list_with_correct_data[-index][2])
         consumption = (curent_fuel / total_mileage) * 100
-        consuption_history.append(consumption)
+        consuption_history["consuption"].append(consumption)
+        consuption_history["date"].append(list_with_correct_data[-index][0])
         index += 1
-    del consuption_history[0]   # first entry is off scale
+    del consuption_history["consuption"][0]   # first entry is off scale
+    del consuption_history["date"][0]  # first entry is off scale
+
+    # plot object
     fig = plt.figure()
     line = fig.add_subplot(1, 1, 1)
-    line.plot(consuption_history)
+    line.plot(consuption_history["consuption"])
+
+    # sets ticks for x axis from date list
+    tick_marks = np.arange(len(consuption_history["date"]))
+    plt.xticks(tick_marks, consuption_history["date"], rotation=45)
+
+    # show every nth tick on X axis
+    every_nth = 8
+    for n, label in enumerate(line.xaxis.get_ticklabels()):
+        if n % every_nth != 0:
+            label.set_visible(False)
+
     plt.savefig(grafLoacation, dpi=430)
     # plt.show()
 

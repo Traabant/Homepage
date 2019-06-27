@@ -359,11 +359,12 @@ def get_radar_data(given_time, path):
     """
     :param given_time: datetime
     :param path: string, place to save files
-    :return:
+    :return: bool if the file was downloaded
      saves individual png files to separate files in path var
     """
     url_example = 'http://portal.chmi.cz/files/portal/docs/meteo/rad/inca-cz/data/czrad-z_max3d/pacz2gmaps3.z_max3d.20190627.0630.0.png'
     url = ''
+    downloaded_status = False
     given_curent_minutes = int(given_time.strftime('%M'))
     if given_curent_minutes <= 10:
         given_curent_minutes = '00'
@@ -381,12 +382,14 @@ def get_radar_data(given_time, path):
     url = 'http://portal.chmi.cz/files/portal/docs/meteo/rad/inca-cz/data/czrad-z_max3d/pacz2gmaps3.z_max3d.' + \
         working_date_stamp + '.0.png'
     resp = requests.get(url)
-    file_path = path + '/' + working_date_stamp + '.png'
-    # writes picture data from response object into the file
-    with open(file_path, 'wb') as fd:
-        for chunk in resp.iter_content(chunk_size=128):
-            fd.write(chunk)
-
+    if resp.status_code == 200:
+        downloaded_status = True
+        file_path = path + '/' + working_date_stamp + '.png'
+        # writes picture data from response object into the file
+        with open(file_path, 'wb') as fd:
+            for chunk in resp.iter_content(chunk_size=128):
+                fd.write(chunk)
+    return downloaded_status
 
 def yesterdays_radar_data():
     """
@@ -400,7 +403,7 @@ def yesterdays_radar_data():
     time = datetime.datetime.strptime(today_sting, '%Y-%m-%d %H:%M')
     timedelta_days_to_add = datetime.timedelta(days=-1)
     timedelta_minutes_to_add = datetime.timedelta(minutes=10)
-    time = time + timedelta_days_to_add
+    # time = time + timedelta_days_to_add
     working_date = time
 
     todays_dir = 'radar_pictures/' + working_date.strftime('%Y%m%d')
@@ -412,9 +415,10 @@ def yesterdays_radar_data():
         print("Successfully created the directory %s " % todays_dir)
     index = 0
     while time.date() == working_date.date():
-        get_radar_data(time, todays_dir)
+        if get_radar_data(time, todays_dir):
+            index += 1
         time = time + timedelta_minutes_to_add
-        index += 1
+
     print(f"downloaded {index} files")
 
 
