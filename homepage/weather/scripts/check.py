@@ -407,12 +407,10 @@ def yesterdays_radar_data():
     todays_dir = 'radar_pictures/' + working_date.strftime('%Y%m%d')
     try:
         os.mkdir(todays_dir)
-        print('test')
     except OSError:
         print("Creation of the directory %s failed" % todays_dir)
     else:
         print("Successfully created the directory %s " % todays_dir)
-    print(time.date())
     index = 0
     while time.date() == working_date.date():
         get_radar_data(time, todays_dir)
