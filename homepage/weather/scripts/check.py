@@ -354,6 +354,63 @@ def get_weather():
     print('weather downloaded')
 
 
+def get_radar_data(given_time, path):
+    # has two parameter:
+    # given_time = datetime
+    # path = string, place to save files
+    # saves individual png files to separate files in path var
+    url_example = 'http://portal.chmi.cz/files/portal/docs/meteo/rad/inca-cz/data/czrad-z_max3d/pacz2gmaps3.z_max3d.20190627.0630.0.png'
+    url = ''
+    given_curent_minutes = int(given_time.strftime('%M'))
+    if given_curent_minutes <= 10:
+        given_curent_minutes = '00'
+    elif given_curent_minutes <= 20:
+        given_curent_minutes = '10'
+    elif given_curent_minutes <= 30:
+        given_curent_minutes = '20'
+    elif given_curent_minutes <= 40:
+        given_curent_minutes = '30'
+    elif given_curent_minutes <= 50:
+        given_curent_minutes = '40'
+    elif given_curent_minutes <= 60:
+        given_curent_minutes = '50'
+    working_date_stamp = given_time.strftime('%Y%m%d.%H') + given_curent_minutes
+    url = 'http://portal.chmi.cz/files/portal/docs/meteo/rad/inca-cz/data/czrad-z_max3d/pacz2gmaps3.z_max3d.' + \
+        working_date_stamp + '.0.png'
+    print(working_date_stamp)
+    resp = requests.get(url)
+    file_path = path + '/' + working_date_stamp + '.png'
+    # writes picture data from response object into the file
+    with open(file_path, 'wb') as fd:
+        for chunk in resp.iter_content(chunk_size=128):
+            fd.write(chunk)
+
+
+def yesterdays_radar_data():
+    # Downloads and saveves PNG files from CHMI.
+    # CHmi has png file for every ten minutes
+    today_sting = datetime.datetime.today().strftime('%Y-%m-%d')
+    today_sting = today_sting + ' 00:01'
+    time = datetime.datetime.strptime(today_sting, '%Y-%m-%d %H:%M')
+    timedelta_days_to_add = datetime.timedelta(days=-1)
+    timedelta_minutes_to_add = datetime.timedelta(minutes=10)
+    time = time + timedelta_days_to_add
+    working_date = time
+
+    todays_dir = 'radar_pictures/' + working_date.strftime('%Y%m%d')
+    try:
+        os.mkdir(todays_dir)
+        print('test')
+    except OSError:
+        print("Creation of the directory %s failed" % todays_dir)
+    else:
+        print("Successfully created the directory %s " % todays_dir)
+    print(time.date())
+    while time.date() == working_date.date():
+        get_radar_data(time, todays_dir)
+        time = time + timedelta_minutes_to_add
+
+
 fileDir = '/home/Traabant/Homepage/Homepage/homepage'
 db_file_name = fileDir + '/db.sqlite3'
 # db_file_name = 'D:\SIBA\Scripty\Homepage\homepage\db.sqlite3'
