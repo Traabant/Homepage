@@ -4,6 +4,7 @@ import unicodedata
 import datetime
 import sqlite3
 import json
+import os
 from sqlite3 import Error
 
 
@@ -355,10 +356,12 @@ def get_weather():
 
 
 def get_radar_data(given_time, path):
-    # has two parameter:
-    # given_time = datetime
-    # path = string, place to save files
-    # saves individual png files to separate files in path var
+    """
+    :param given_time: datetime
+    :param path: string, place to save files
+    :return:
+     saves individual png files to separate files in path var
+    """
     url_example = 'http://portal.chmi.cz/files/portal/docs/meteo/rad/inca-cz/data/czrad-z_max3d/pacz2gmaps3.z_max3d.20190627.0630.0.png'
     url = ''
     given_curent_minutes = int(given_time.strftime('%M'))
@@ -387,8 +390,12 @@ def get_radar_data(given_time, path):
 
 
 def yesterdays_radar_data():
-    # Downloads and saveves PNG files from CHMI.
-    # CHmi has png file for every ten minutes
+    """
+    Downloads and saveves PNG files from CHMI.
+    CHmi has png file for every ten minutes
+    :return:
+    """
+    print('downlaoding radar data')
     today_sting = datetime.datetime.today().strftime('%Y-%m-%d')
     today_sting = today_sting + ' 00:01'
     time = datetime.datetime.strptime(today_sting, '%Y-%m-%d %H:%M')
@@ -406,9 +413,12 @@ def yesterdays_radar_data():
     else:
         print("Successfully created the directory %s " % todays_dir)
     print(time.date())
+    index = 0
     while time.date() == working_date.date():
         get_radar_data(time, todays_dir)
         time = time + timedelta_minutes_to_add
+        index += 1
+    print(f"downloaded {index} files")
 
 
 fileDir = '/home/Traabant/Homepage/Homepage/homepage'
