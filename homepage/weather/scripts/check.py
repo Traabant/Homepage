@@ -380,7 +380,6 @@ def get_radar_data(given_time, path):
     working_date_stamp = given_time.strftime('%Y%m%d.%H') + given_curent_minutes
     url = 'http://portal.chmi.cz/files/portal/docs/meteo/rad/inca-cz/data/czrad-z_max3d/pacz2gmaps3.z_max3d.' + \
         working_date_stamp + '.0.png'
-    print(working_date_stamp)
     resp = requests.get(url)
     file_path = path + '/' + working_date_stamp + '.png'
     # writes picture data from response object into the file
