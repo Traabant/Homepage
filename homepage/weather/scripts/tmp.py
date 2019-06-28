@@ -1,0 +1,3 @@
+import consuption
+
+consuption.main()

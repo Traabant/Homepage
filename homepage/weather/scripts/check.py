@@ -413,7 +413,7 @@ def yesterdays_radar_data():
     #     print("Creation of the directory %s failed" % todays_dir)
     # else:
     #     print("Successfully created the directory %s " % todays_dir)
-    todays_dir = 'radar_pictures/'
+    todays_dir = 'radar_pictures'
     index = 0
     while time.date() == working_date.date():
         if get_radar_data(time, todays_dir):
