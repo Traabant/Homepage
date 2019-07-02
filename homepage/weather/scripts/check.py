@@ -406,7 +406,7 @@ def yesterdays_radar_data():
     time = time + timedelta_days_to_add
     working_date = time
 
-    todays_dir = '/home/Traabant/Homepage/Homepage/homepage/weather/scripts/radar_pictures/' + working_date.strftime('%Y%m%d')
+    todays_dir = fileDir + '/weather/scripts/radar_pictures/' + working_date.strftime('%Y%m%d')
     try:
         os.mkdir(todays_dir)
     except OSError:
@@ -422,7 +422,10 @@ def yesterdays_radar_data():
 
     print(f"downloaded {index} files")
 
-
-fileDir = '/home/Traabant/Homepage/Homepage/homepage'
+# for debuging checks if im on my Windows machine
+if os.path.exists('D:/SIBA/'):
+    fileDir = 'D:/SIBA/Scripty/Homepage/homepage'
+else:
+    fileDir = '/home/Traabant/Homepage/Homepage/homepage'
 db_file_name = fileDir + '/db.sqlite3'
 # db_file_name = 'D:\SIBA\Scripty\Homepage\homepage\db.sqlite3'
