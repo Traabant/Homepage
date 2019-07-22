@@ -93,8 +93,8 @@ def histroy(list_with_correct_data):
     index = 2
     curent_fuel = float(list_with_correct_data[-1][2])
     while index <= len(list_with_correct_data):
-        last_mileage = int(list_with_correct_data[-index][1])
-        first_mileage = int(list_with_correct_data[-1][1])
+        last_mileage = float(list_with_correct_data[-index][1])
+        first_mileage = float(list_with_correct_data[-1][1])
         total_mileage = last_mileage - first_mileage
         curent_fuel += float(list_with_correct_data[-index][2])
         consumption = (curent_fuel / total_mileage) * 100
@@ -135,8 +135,8 @@ def main():
     if response:
         list_with_raw_data = url_data_to_list(response)
         list_with_correct_data = find_data(list_with_raw_data)
-        last_mileage = int(list_with_correct_data[0][1])
-        first_mileage = int(list_with_correct_data[-1][1])
+        last_mileage = float(list_with_correct_data[0][1])
+        first_mileage = float(list_with_correct_data[-1][1])
         total_mileage = last_mileage - first_mileage
         # print("Total Traveled: %d km" % total_mileage)
 
