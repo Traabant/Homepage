@@ -93,10 +93,10 @@ def histroy(list_with_correct_data):
     index = 2
     curent_fuel = float(list_with_correct_data[-1][2])
     while index <= len(list_with_correct_data):
-        last_mileage = float(list_with_correct_data[-index][1])
-        first_mileage = float(list_with_correct_data[-1][1])
+        last_mileage = int(round(float(list_with_correct_data[-index][1])))
+        first_mileage = int(round(float(list_with_correct_data[-1][1])))
         total_mileage = last_mileage - first_mileage
-        curent_fuel += float(list_with_correct_data[-index][2])
+        curent_fuel += int(round(float(list_with_correct_data[-index][2])))
         consumption = (curent_fuel / total_mileage) * 100
         consuption_history["consuption"].append(consumption)
         consuption_history["date"].append(list_with_correct_data[-index][0])
@@ -135,15 +135,15 @@ def main():
     if response:
         list_with_raw_data = url_data_to_list(response)
         list_with_correct_data = find_data(list_with_raw_data)
-        last_mileage = float(list_with_correct_data[0][1])
-        first_mileage = float(list_with_correct_data[-1][1])
+        last_mileage = int(round(float(list_with_correct_data[0][1])))
+        first_mileage = int(round(float(list_with_correct_data[-1][1])))
         total_mileage = last_mileage - first_mileage
         # print("Total Traveled: %d km" % total_mileage)
 
         i = 0
         current_fuel = 0
         for item in list_with_correct_data:
-            current_fuel += float(list_with_correct_data[i][2])
+            current_fuel += int(round(float(list_with_correct_data[i][2])))
             i += 1
         consumption = (current_fuel / total_mileage) * 100
         date_added = list_with_correct_data[0][0]

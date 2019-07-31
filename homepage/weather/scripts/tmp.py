@@ -1,3 +1,3 @@
-import consuption
+import check
 
-consuption.main()
+check.yesterdays_radar_data()
