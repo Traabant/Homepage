@@ -48,12 +48,17 @@ def find_data(list_to_analyze):
 
 def is_datetime(string):
     # In Data from Fuelino, only filing gas entries starts with date time
+    # Fuelino added time to date log, so i needed to alter test
     import datetime
     try:
         datetime.datetime.strptime(string, "%Y-%m-%d")
         return True
     except:
-        return False
+        try:
+            datetime.datetime.strptime(string, "%Y-%m-%d %H:%M")
+            return True
+        except:
+            return False
 
 
 def url_data_to_list(data_to_split):
