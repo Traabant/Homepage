@@ -24,9 +24,9 @@ def send_email(user, pwd, recipient, subject, body):
     message = """From: %s\nTo: %s\nSubject: %s\n\n%s
     """ % (FROM, ", ".join(TO), SUBJECT, TEXT)
     try:
-        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server = smtplib.SMTP_SSL("smtp.seznam.cz", 465)
         server.ehlo()
-        server.starttls()
+        # server.starttls()
         server.login(user, pwd)
         server.sendmail(FROM, TO, message)
         server.close()
@@ -219,8 +219,8 @@ def check_events():
     url = 'http://www.msmartinov.cz/stranka71'
     ulr_gallery = "http://www.msmartinov.cz/galerie"
 
-    user = "siba.robot@gmail.com"
-    password = "lplojiju321"
+    user = 'siba.robot@seznam.cz'
+    password = 'lplojiju321'
     subject = "Nove udalosti MS"
     recipient = [
         "david.siba@gmail.com",
