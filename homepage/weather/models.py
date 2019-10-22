@@ -52,3 +52,8 @@ class Events(models.Model):
 class Gallery(models.Model):
     Date = models.TextField()
     Gallery = models.TextField()
+
+
+class Info(models.Model):
+    Date = models.TextField()
+    Info = models.TextField()

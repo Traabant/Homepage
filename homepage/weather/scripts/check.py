@@ -78,6 +78,7 @@ def find_new_galery_in_url(url):
         return list_to_return
     except:
         log("nepovedlo se stazeni informaci z webu")
+        
 
 
 def odstraneni_diakritiky(list):
@@ -175,6 +176,12 @@ class DbOperations:
         self.cursor.execute(string_to_execute)
         self.connection.commit()
 
+    def dump_data_to_info_table(self, info, info_date):
+        string_to_execute = "INSERT INTO weather_info(%s, %s) VALUES('%s', '%s')" \
+                            % ('Date', 'Info', info_date, info)
+        self.cursor.execute(string_to_execute)
+        self.connection.commit()
+
     def get_events_from_db(self, table):
         """
         :param table: it can be 'events' or 'galerry'
@@ -218,6 +225,7 @@ def check_events():
 
     url = 'http://www.msmartinov.cz/stranka71'
     ulr_gallery = "http://www.msmartinov.cz/galerie"
+    url_ifno = 'http://www.msmartinov.cz/pro-rodice'
 
     user = 'siba.robot@seznam.cz'
     password = 'lplojiju321'
@@ -227,13 +235,19 @@ def check_events():
         "kristyna.sibova@gmail.com"
     ]
 
+    # recipient = [
+    #     "david.siba@gmail.com",
+    # ]
+
     print("downloading data")
     events = find_envents_in_url(url)
     galery_list = find_new_galery_in_url(ulr_gallery)
+    info = find_envents_in_url(url_ifno)
 
     print("deleting special characters")
     events = odstraneni_diakritiky(events)
     galery_list = odstraneni_diakritiky(galery_list)
+    info = odstraneni_diakritiky(info)
 
     print("comparing")
     compare = Compare(events)
@@ -244,10 +258,16 @@ def check_events():
     galery_compare.compare('gallery')
     galery_list = galery_compare.new_events
 
+    info = Compare(info)
+    info.compare('info')
+    info_list = info.new_events
+
+    # print(info_list)
+
     # write_events_to_file(events, eventsFile)
     # write_events_to_file(galery_list, galeryFile)
 
-    if (compare.status is True) or (galery_compare.status is True):
+    if (compare.status is True) or (galery_compare.status is True) or (info.status is True):
         body = "Nove udoalosti ve skolce jsou : \n"
         for line in events:
             body += line + '\n'
@@ -255,6 +275,11 @@ def check_events():
         body += "\nNove galerie jsou : \n"
         for line in galery_list:
             body += line + '\n'
+        
+        body += "\nNove Informace pro rodice jsou : \n"
+        for line in info_list:
+            body += line + '\n'
+
         db = DbOperations(db_file_name)
         print("writing Events to DB")
         for item in events:
@@ -262,6 +287,8 @@ def check_events():
         print("Writing galerry to DB")
         for item in galery_list:
             db.dump_data_to_galerry_table(item, datetime.datetime.today().strftime("%Y-%m-%d"))
+        for item in info_list:
+            db.dump_data_to_info_table(item, datetime.datetime.today().strftime("%Y-%m-%d"))
         print('Done')
 
         send_email(user, password, recipient, subject, body)
@@ -362,7 +389,7 @@ def get_radar_data(given_time, path):
     :return: bool if the file was downloaded
      saves individual png files to separate files in path var
     """
-    url_example = 'http://portal.chmi.cz/files/portal/docs/meteo/rad/inca-cz/data/czrad-z_max3d/pacz2gmaps3.z_max3d.20190627.0630.0.png'
+    # url_example = 'http://portal.chmi.cz/files/portal/docs/meteo/rad/inca-cz/data/czrad-z_max3d/pacz2gmaps3.z_max3d.20190627.0630.0.png'
     url = ''
     downloaded_status = False
     given_curent_minutes = int(given_time.strftime('%M'))
@@ -428,4 +455,7 @@ if os.path.exists('D:/SIBA/'):
 else:
     fileDir = '/home/Traabant/Homepage/Homepage/homepage'
 db_file_name = fileDir + '/db.sqlite3'
+
+if __name__ == "__main__":
+    check_events()
 # db_file_name = 'D:\SIBA\Scripty\Homepage\homepage\db.sqlite3'
