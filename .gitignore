@@ -1,0 +1,5 @@
+.\homepage\weather\scripts\radar_pictures\
+.\venv\
+
+*.sqlite3
+
