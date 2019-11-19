@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('blog.urls')),
     path('register/', user_views.register, name='register'),
     path('weather/', weather_views.weather, name='weather'),
+    path('weather/get-images', weather_views.radarImage, name='radarImages'),
     path('weather/consumption/', weather_views.consumption, name='consumption'),
     path('weather/events/', weather_views.events, name='events'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
