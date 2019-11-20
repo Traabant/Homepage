@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
     path('', include('blog.urls')),
+    path('dev/' ,weather_views.dev, name='dev'),
     path('register/', user_views.register, name='register'),
     path('weather/', weather_views.weather, name='weather'),
     path('weather/get-images', weather_views.radarImage, name='radarImages'),

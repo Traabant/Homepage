@@ -91,17 +91,26 @@ class radarData:
         num_of_imgs = 5
         timedelta_minutes_to_sub = datetime.timedelta(minutes=10)
         now = datetime.datetime.utcnow()
-        working_time = now
+        working_time = now - timedelta_minutes_to_sub
         num_cur_img = 0
         while (num_cur_img < num_of_imgs):
             ulr_list.append(self.create_url(working_time))
             working_time = working_time - timedelta_minutes_to_sub
             num_cur_img += 1
         
-        json.dumps(ulr_list)
+        ulr_dict = {
+            "0": ulr_list[0],
+            "1": ulr_list[1],
+            "2": ulr_list[2],
+            "3": ulr_list[3],
+            "4": ulr_list[4],
+        }
+
+        json.dumps(ulr_dict)
+        # print(ulr_list)
         data_to_return ={
             'time': datetime.datetime.strftime(now, "%Y%m%d %H:%M"),
-            'data': ulr_list
+            'data': ulr_dict
         }            
         return data_to_return
 

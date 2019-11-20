@@ -61,6 +61,9 @@ def radarImage(request):
 
     return JsonResponse(data)
 
+def dev(request):
+    return render(request, 'weather/tmp.html')
+
 ##############################################
 #            supporting functions            #
 ##############################################
