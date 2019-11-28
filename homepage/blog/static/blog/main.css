@@ -85,10 +85,20 @@ a.article-title:hover {
 
 .radar-img{
   position: relative;
+  height: 480px;
+  width: 460px;
 }
+
+.backgroundImage{
+  position: absolute;
+  z-index: 1;
+  height: 640px;
+  width: 460;
+}
+
 
 .overlayImages{
   position: absolute;
-  top: 0;
-  left: 0;
+  z-index: 2;
+
 }

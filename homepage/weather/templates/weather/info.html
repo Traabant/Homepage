@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+{% load static from staticfiles %}
 <div class="col-md-12">
     <h1>Weater info</h1>
 </div>
@@ -53,12 +54,12 @@
     </div>
 </div>
 
-<div class="col-md-12">
+<div class="col-md-12" >
     <div class="media content-section">
         <div class="media-body">
-            <p>
-                radar Image
-            </p>
+            <div id="radar-img">
+                <script src="{% static 'scripts/radardata.js' %}"></script>
+            </div>
         </div>
     </div>
 </div>
