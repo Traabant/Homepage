@@ -82,3 +82,13 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+.radar-img{
+  position: relative;
+}
+
+.overlayImages{
+  position: absolute;
+  top: 0;
+  left: 0;
+}

@@ -1,43 +1,49 @@
-// alert("hello word");
 
-const url = "http://127.0.0.1:8000/weather/get-images";
-const HTTP = new XMLHttpRequest();
-
-HTTP.open("GET", url);
-HTTP.send();
+const apiURL = "http://127.0.0.1:8000/weather/get-images";
+const getJsonData = new XMLHttpRequest();
+const getIMG = new XMLHttpRequest();
 
 var response;
-var obj;
+var imageData;
+var images = new Array;
 
-// alert("hello word");
+
+getJsonData.open("GET", apiURL);
+getJsonData.send();
+
 
 function writeOut(){
-  // console.log(response);
-  // console.log(Object.keys(obj.data))
+  let radarID = document.getElementById("radar-img");
+  for(let i =0; i < Object.keys(imageData.data).length ; i++){
+    images[i] = document.createElement("img");
+    images[i].src = imageData['data'][i];
+    images[i].style.visibility = 'hidden';
+    images[i].className = 'overlayImages';
+    radarID.appendChild(images[i]);
+    console.log(images[i].attributes.src)
+    }
 
-  var img = document.createElement("img");
-  // var div = document.createElement("div")
-
-  for(let i =0; i < Object.keys(obj.data).length ; i++){
-    console.log(obj['data'][i])
-    img.src = obj['data'][i]
-    let radarID = document.getElementById("radar-img");
-    radarID.appendChild(img);
-  }
+  cycle(); 
 }
 
-HTTP.onreadystatechange = (e) => {    
-  if(HTTP.readyState == 4 && HTTP.status == 200){
-    response = HTTP.responseText;
-    obj = JSON.parse(response);
+getJsonData.onreadystatechange = (e) => {    
+  if(getJsonData.readyState == 4 && getJsonData.status == 200){
+    response = getJsonData.responseText;
+    imageData = JSON.parse(response);
     writeOut(); 
   }   
 }
 
-  
+async function cycle(){
+  while(true){
+    for(let i =0; i < Object.keys(imageData.data).length ; i++){
+      images[i].style.visibility = 'visible';
+      await sleep(300)
+      images[i].style.visibility = 'hidden';
+    }
+  }  
+}
 
-
-  
-
-  
- 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
