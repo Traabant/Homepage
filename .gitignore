@@ -1,5 +1,15 @@
-.\homepage\weather\scripts\radar_pictures\
-.\venv\
+venv/*
+
+*.pyc
 
 *.sqlite3
+
+log.txt
+
+graf.png
+
+settings.json
+launch.json
+workspace.xml
+siba.xml
 

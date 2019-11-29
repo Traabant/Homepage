@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'traabant.pythonanywhere.com',
-    'localhost'
+    'localhost',
+    '127.0.0.1'
                  ]
 
 
@@ -125,6 +126,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = "/home/Traabant/Homepage/Homepage/homepage/static/"
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_REDIRECT_URL = 'blog-home'
 LOGIN_URL = 'login'

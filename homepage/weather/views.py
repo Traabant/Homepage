@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import Weather2, Consumption, Events, Gallery, Pollution, Weather_forcast
-from .scripts import consuption, check
+from .scripts import consuption, check, radarData
+
+from django.http import JsonResponse
 
 
 # Views
@@ -52,6 +54,15 @@ def events(request):
         return render(request, 'weather/events.html')
 
     return render(request, 'weather/events.html', data)
+
+def radarImage(request):
+    r = radarData.radarData()
+    data = r.get_last_x_images()
+
+    return JsonResponse(data)
+
+def dev(request):
+    return render(request, 'weather/tmp.html')
 
 ##############################################
 #            supporting functions            #

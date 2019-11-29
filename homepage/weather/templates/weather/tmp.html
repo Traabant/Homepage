@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+{% load static from staticfiles %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div id="radar-img" class="radar-img">
+            <img src="{% static 'assets/backgroud.jpg' %}" class="backgroundImage" >
+            <img src="{% static 'assets/cities.png' %}" class="citiesLayer" >
+            <script src="{% static 'scripts/radardata.js' %}"></script>
+        </div>
+    </div>
+{% endblock %}

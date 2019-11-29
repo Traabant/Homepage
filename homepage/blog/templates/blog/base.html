@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="http://traabant.pythonanywhere.com/{% static 'blog/main.css' %}">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}"> -->
     <title>Traabant's Web Page</title>
 </head>
 <body>
@@ -22,10 +23,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a
-                <a class="nav-item nav-link" href="{% url 'events' %}">Events</a> class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
+                <a class="nav-item nav-link" href="{% url 'events' %}">Home</a>
                 <a class="nav-item nav-link" href="{% url 'weather' %}">Weather</a>
                 <a class="nav-item nav-link" href="{% url 'consumption' %}">Consumption</a>
+                <a class="nav-item nav-link" href="{% url 'dev' %}">DEV Page</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
