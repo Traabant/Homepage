@@ -22,7 +22,7 @@ function writeOut(){
     radarID.appendChild(images[i]);
     console.log(images[i].attributes.src)
     }
-
+	images = images.reverse();
   cycle(); 
 }
 
