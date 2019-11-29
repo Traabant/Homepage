@@ -5,6 +5,11 @@ from scripts import radarData, weather
 
 # Create your views here.
 
+def index(request):
+
+    return render(request, 'blog/api.html')
+
+
 def radarImageNames(request):
     r = radarData.radarData()
     data = r.get_last_x_images()

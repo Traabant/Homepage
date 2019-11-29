@@ -7,6 +7,7 @@ weatherpatterns = [
 ] 
 
 urlpatterns = [
+    path('', views.index, name='api'),
     path('get-images', views.radarImageNames, name='radarImageNames'),
     path('weather/', include(weatherpatterns)),
 
