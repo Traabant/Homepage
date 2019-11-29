@@ -2,8 +2,11 @@
 {% load static from staticfiles %}
 
 {% block content %}
-    <div id="radar-img">
-        <img src="{% static 'blog/backgroud.jpg' %}" class="backgroundImage" >
-        <script src="{% static 'scripts/radardata.js' %}"></script>
+    <div class="col-md-12">
+        <div id="radar-img" class="radar-img">
+            <img src="{% static 'assets/backgroud.jpg' %}" class="backgroundImage" >
+            <img src="{% static 'assets/cities.png' %}" class="citiesLayer" >
+            <script src="{% static 'scripts/radardata.js' %}"></script>
+        </div>
     </div>
 {% endblock %}

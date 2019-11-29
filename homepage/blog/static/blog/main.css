@@ -85,20 +85,23 @@ a.article-title:hover {
 
 .radar-img{
   position: relative;
-  height: 480px;
-  width: 460px;
+  min-height: 480px;
 }
 
 .backgroundImage{
   position: absolute;
   z-index: 1;
-  height: 640px;
-  width: 460;
+  width: 680px;
 }
 
+.citiesLayer{
+  position: absolute;
+  z-index: 2;
+  width: 680px;
+}
 
 .overlayImages{
   position: absolute;
-  z-index: 2;
-
+  z-index: 3;
+  opacity: 0.6;
 }
