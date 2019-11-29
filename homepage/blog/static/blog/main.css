@@ -91,13 +91,13 @@ a.article-title:hover {
 .backgroundImage{
   position: absolute;
   z-index: 1;
-  max-width: 680px;
+  /* max-width: 680px; */
 }
 
 .citiesLayer{
   position: absolute;
   z-index: 2;
-  max-width: 680px;
+  /* max-width: 680px; */
 }
 
 .overlayImages{
