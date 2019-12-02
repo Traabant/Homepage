@@ -18,11 +18,10 @@ def radarImageNames(request):
 
 def todayTemps(request):
     tempToday = weather.Weather()
-    data = tempToday.get_todays_weather_data_from_db()
+    data = tempToday.get_weather_data_from_db(0)
     return JsonResponse(data)
 
 def tomorowTemps(request):
-    tempToday = weather.Weather()
-    
-    data = tempToday.get_tomorows_weather_data_from_db()
+    tempToday = weather.Weather()    
+    data = tempToday.get_weather_data_from_db(1)
     return JsonResponse(data)
