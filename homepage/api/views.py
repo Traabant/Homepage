@@ -17,11 +17,16 @@ def radarImageNames(request):
     return JsonResponse(data)
 
 def todayTemps(request):
-    tempToday = weather.Weather()
-    data = tempToday.get_weather_data_from_db(0)
+    w = weather.Weather()
+    data = w.get_weather_data_from_db(0)
     return JsonResponse(data)
 
 def tomorowTemps(request):
-    tempToday = weather.Weather()    
-    data = tempToday.get_weather_data_from_db(1)
+    w = weather.Weather()    
+    data = w.get_weather_data_from_db(1)
+    return JsonResponse(data)
+
+def pollution(request):
+    w = weather.Weather()
+    data = w.polution()
     return JsonResponse(data)

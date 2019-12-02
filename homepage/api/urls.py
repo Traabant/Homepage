@@ -4,6 +4,7 @@ from . import views
 weatherpatterns = [
     path('today', views.todayTemps, name='todayTemps'),
     path('tomorow', views.tomorowTemps, name='tomorowTemps'),
+    path('pollution', views.pollution, name='pollution'),
 ] 
 
 urlpatterns = [
