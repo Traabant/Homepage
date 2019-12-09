@@ -100,12 +100,12 @@ class CheckEents():
             print('Done')
 
             Email.send_email(user, password, recipient, subject, body)
-            print('poslal bych mail')
+            print('I would send an email')
             print(body)
             log(body)
             compare.status = False
         else:
-            log('nejsou nove udalosti')
+            log('No new Events')
             print('No new Events')
     
     def find_envents_in_url(self, url):
@@ -123,7 +123,7 @@ class CheckEents():
                 correct_list.append(item.text)
             return correct_list
         except:
-            log("nepovedlo se stazeni informaci z webu")
+            log("Error while downloading Data from Web")
 
 
     def find_new_galery_in_url(self, url):
@@ -137,7 +137,7 @@ class CheckEents():
                     list_to_return.append(item.text[4:-3])
             return list_to_return
         except:
-            log("nepovedlo se stazeni informaci z webu")
+            log("Error while downloading Data from Web")
         
 
 
