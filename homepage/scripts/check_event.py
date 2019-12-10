@@ -2,6 +2,7 @@ from myLog import MyLog as log
 from compare import Compare
 from DbOperations import DbOperations
 from myEmail import Email
+from credentials import Credentials
 
 import requests
 from bs4 import BeautifulSoup
@@ -21,29 +22,14 @@ class CheckEents():
     def __init__(self):
         pass
         self.check_events()
+        
     
     def check_events(self):
         url = 'http://www.msmartinov.cz/stranka71'
         ulr_gallery = "http://www.msmartinov.cz/galerie"
         url_ifno = 'http://www.msmartinov.cz/pro-rodice'
-
-        user = 'siba.robot@seznam.cz'
-        password = 'lplojiju321'
-        subject = "Nove udalosti MS"
-        recipient = [
-            "david.siba@gmail.com",
-        ]
-
-        # recipient = [
-        #     "david.siba@gmail.com",
-        # ]
-
-
-        if os.path.exists('D:/SIBA/'):
-            fileDir = 'D:/SIBA/Scripty/Homepage/homepage'
-        else:
-            fileDir = '/home/Traabant/Homepage/Homepage/homepage'
-        db_file_name = fileDir + '/db.sqlite3'
+     
+        db_file_name = Credentials().db_file_name
 
         print("downloading data")
         events = self.find_envents_in_url(url)
@@ -75,7 +61,7 @@ class CheckEents():
 
         if (compare.status is True) or (galery_compare.status is True) or (info.status is True):
             
-
+            subject = "Nove udalosti MS"
             body = "Nove udoalosti ve skolce jsou : \n"
             for line in events:
                 body += line + '\n'
@@ -99,7 +85,7 @@ class CheckEents():
                 db.dump_data_to_info_table(item, datetime.datetime.today().strftime("%Y-%m-%d"))
             print('Done')
 
-            Email.send_email(user, password, recipient, subject, body)
+            Email.send_email(Credentials().user, Credentials().password, Credentials().recipient, subject, body)
             print('I would send an email')
             print(body)
             log(body)
@@ -159,4 +145,4 @@ class CheckEents():
 
 
 if __name__ == "__main__":
-    e = CheckEents()
+    CheckEents()

@@ -13,3 +13,4 @@ launch.json
 workspace.xml
 siba.xml
 
+homepage/scripts/credentials.py
