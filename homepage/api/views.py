@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.http import JsonResponse
-from scripts import radarData, weather
+from scripts import radarcontext, weather
 
 # Create your views here.
 
@@ -11,22 +11,22 @@ def index(request):
 
 
 def radarImageNames(request):
-    r = radarData.radarData()
-    data = r.get_last_x_images()
+    r = radarcontext.radarcontext()
+    contsext = r.get_last_x_images()
 
-    return JsonResponse(data)
+    return JsonResponse(context)
 
 def todayTemps(request):
     w = weather.Weather()
-    data = w.get_weather_data_from_db(0)
-    return JsonResponse(data)
+    context = w.get_weather_context_from_db(0)
+    return JsonResponse(context)
 
 def tomorowTemps(request):
     w = weather.Weather()    
-    data = w.get_weather_data_from_db(1)
-    return JsonResponse(data)
+    context = w.get_weather_context_from_db(1)
+    return JsonResponse(context)
 
 def pollution(request):
     w = weather.Weather()
-    data = w.polution()
-    return JsonResponse(data)
+    context = w.polution()
+    return JsonResponse(context)

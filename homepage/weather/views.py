@@ -9,18 +9,18 @@ from django.http import JsonResponse
 
 
 def weather(request):
-    data = get_weather_data_from_db()
+    context = get_weather_data_from_db()
     if request.method == 'POST':
         check.get_weather()
-        data = get_weather_data_from_db()
-        return render(request, 'weather/info.html', data)
+        context = get_weather_data_from_db()
+        return render(request, 'weather/info.html', context)
 
-    return render(request, 'weather/info.html', data)
+    return render(request, 'weather/info.html', context)
 
 
 def consumption(request):
     data_from_db = Consumption.objects.all().last()
-    data = {
+    context = {
         'date': data_from_db.date,
         'total_km': data_from_db.total_km,
         'traveled_km': data_from_db.traveled_km,
@@ -31,20 +31,20 @@ def consumption(request):
     if request.method == 'POST':
         consuption.main()
         data_from_db = Consumption.objects.all().last()
-        data = {
+        context = {
             'date': data_from_db.date,
             'total_km': data_from_db.total_km,
             'traveled_km': data_from_db.traveled_km,
             'total_fuel': data_from_db.total_fuel,
             'curent_consuption': data_from_db.curent_consuption / 100,
         }
-        return render(request, 'weather/consumption.html', data)
+        return render(request, 'weather/consumption.html', context)
 
-    return render(request, 'weather/consumption.html', data)
+    return render(request, 'weather/consumption.html', context)
 
 
 def events(request):
-    data= {
+    context= {
         'gallery': Gallery.objects.all(),
         'events': Events.objects.all()
     }
@@ -53,13 +53,13 @@ def events(request):
         check.check_events()
         return render(request, 'weather/events.html')
 
-    return render(request, 'weather/events.html', data)
+    return render(request, 'weather/events.html', context)
 
 def radarImage(request):
     r = radarData.radarData()
-    data = r.get_last_x_images()
+    context = r.get_last_x_images()
 
-    return JsonResponse(data)
+    return JsonResponse(context)
 
 def dev(request):
     return render(request, 'weather/tmp.html')
