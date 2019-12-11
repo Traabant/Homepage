@@ -35,8 +35,8 @@ class GitHub():
         return True if users is not DB 
         """
         users_from_db = self.db.get_data_github_authors()
-             
-        isIn = list(filter(lambda x:new_id in x, users_from_db))  
+
+        isIn = list(filter(lambda id: id['git_id'] == new_id, users_from_db))  
         if len(isIn) != 0 :
             return False
         return True
@@ -79,8 +79,9 @@ class GitHub():
         print(repos)
     
 if __name__ == "__main__":
-    GitHub().get_repos('traabant')
-    # GitHub().is_new_user(16059893)
+    pass
+    # GitHub().get_repos('traabant')
+    # print(GitHub().is_new_user(16059893))
     # GitHub().repos_form_db()
     # GitHub().is_new_repo(176527851)
     

@@ -91,11 +91,18 @@ class DbOperations:
         fetchedlist = self.cursor.fetchall()
         list_to_return = []
         for item in fetchedlist:
-            list_to_return.append(item)
+            data = {
+                "id": item[0],
+                "git_id": item[1],
+                "node_id": item[2],
+                "login": item[3]
+            }
+            list_to_return.append(data)
         return list_to_return   
 
     def dump_data_github_repos(self,date, git_id, node_id, owner_id, name, full_name, html, descripton):
-        string_to_execute = "INSERT INTO github_repos(date_added, git_id, node_id, owner_id, name, full_name, html, description) \
+        string_to_execute = "INSERT INTO github_repos(date_added, git_id, node_id, \
+                            owner_id, name, full_name, html, description) \
                             VALUES('%s','%s','%s', '%s', '%s', '%s', '%s', '%s')" \
                             % (date, git_id, node_id, owner_id, name, full_name, html, descripton)
         
