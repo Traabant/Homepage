@@ -15,7 +15,7 @@ class CheckEents():
     """
         downloads two HTML sites, than parse them.
         Parsed data gets compared to the data in DB,
-        new data is stored in DB and snd throw the mail
+        new data is stored in DB and send through the mail
         Script should be run periodically once a day
         method check_events is called automaticly on init
     """
@@ -62,6 +62,7 @@ class CheckEents():
         if (compare.status is True) or (galery_compare.status is True) or (info.status is True):
             
             subject = "Nove udalosti MS"
+            creds = Credentials()
             body = "Nove udoalosti ve skolce jsou : \n"
             for line in events:
                 body += line + '\n'
@@ -85,7 +86,7 @@ class CheckEents():
                 db.dump_data_to_info_table(item, datetime.datetime.today().strftime("%Y-%m-%d"))
             print('Done')
 
-            Email.send_email(Credentials().user, Credentials().password, Credentials().recipient, subject, body)
+            Email.send_email(creds.user, creds.password, creds.recipient, subject, body)
             print('I would send an email')
             print(body)
             log(body)
