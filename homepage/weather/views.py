@@ -1,6 +1,13 @@
 from django.shortcuts import render
 from .models import Weather2, Consumption, Events, Gallery, Pollution, Weather_forcast
-from .scripts import consuption, check, radarData
+# from .scripts import consuption, check, radarData
+
+from .scripts import consuption
+
+from scripts import radarData
+from scripts import weather as Weather
+# from scripts import check_events
+# from scripts import radarData
 
 from django.http import JsonResponse
 
@@ -49,14 +56,10 @@ def events(request):
         'events': Events.objects.all()
     }
 
-    if request.method == 'POST':
-        check.check_events()
-        return render(request, 'weather/events.html')
-
     return render(request, 'weather/events.html', context)
 
 def radarImage(request):
-    r = radarData.radarData()
+    r = radarData()
     context = r.get_last_x_images()
 
     return JsonResponse(context)
@@ -84,7 +87,7 @@ def get_weather_data_from_db():
     temp_tomorrow_from_db = Weather_forcast.objects.all().order_by('-id')[:8]
     pollution_form_db = Pollution.objects.all().last()
 
-    # turns Queryset object in to list, and then reverse it
+    # turns Queryset object in to list, and then reverse it  
     list_from_db_today = []
     for item in temp_from_db:
         list_from_db_today.append(item)
@@ -98,7 +101,7 @@ def get_weather_data_from_db():
     temp_in_K = {
         'temp': list_from_db_today,
         'temp_tomorrow': list_from_db_tomorrow,
-        'polution': check.analyze_air_polution(pollution_form_db.pollution_index),
+        'polution': Weather.Weather().analyze_air_polution(pollution_form_db.pollution_index),
         'pollution_date': pollution_form_db.datetime,
         'polution_index': pollution_form_db.pollution_index,
     }
