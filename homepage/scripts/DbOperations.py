@@ -1,4 +1,5 @@
 import sqlite3
+from sqlite3 import Error
 
 class DbOperations:
     """
@@ -72,4 +73,24 @@ class DbOperations:
                             % (temp, date, date_added)
         self.cursor.execute(string_to_execute)
         self.connection.commit()
+
+    def dump_data_github_authors(self, git_id, node_id, login):
+        string_to_execute = "INSERT INTO github_authors(git_id, node_id, login)\
+         VALUES('%d','%s', '%s')" \
+                            % (git_id, node_id, login)
+        self.cursor.execute(string_to_execute)
+        self.connection.commit()
+
+    def get_data_github_authors(self):
+        """
+        returns list with tuples in format:
+        Id, git_id, node_id, login
+        """
+        string_to_execute = "SELECT * FROM github_authors"
+        self.cursor.execute(string_to_execute)
+        fetchedlist = self.cursor.fetchall()
+        list_to_return = []
+        for item in fetchedlist:
+            list_to_return.append(item)
+        return list_to_return   
 
