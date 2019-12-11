@@ -59,6 +59,11 @@ class GitHub():
                             repo['html_url'], repo['description'])
                     print('saving new repo to db')
 
+                if self.is_new_user(repo['owner']['id']):
+                    print(f'saving new user to DB')                
+                    self.db.dump_data_github_authors(repo['owner']['id'], repo['owner']['node_id'], repo['owner']['login'])
+
+
 
     def is_new_repo(self, repo_id):
         """
@@ -73,14 +78,13 @@ class GitHub():
             return False        
         return True
     
-    def repos_form_db(self):
+    def repos_form_db(self):        
+        return self.db.get_data_github_repos()
         
-        repos = self.db.get_data_github_repos()
-        print(repos)
     
 if __name__ == "__main__":
     pass
-    # GitHub().get_repos('traabant')
+    GitHub().get_repos('traabant')
     # print(GitHub().is_new_user(16059893))
     # GitHub().repos_form_db()
     # GitHub().is_new_repo(176527851)
