@@ -1,10 +1,14 @@
 import datetime
 import requests
 import json
+import os
+
+from scripts.credentials import Credentials
 
 class radarData:
     def __init__(self):
         self.today = self.get_today_timestamp()
+        self.working_date_stamp = ''
 
 
     def get_radar_data(self, given_time, path):
@@ -14,12 +18,12 @@ class radarData:
         :return: bool if the file was downloaded
         saves individual png files to separate files in path var
         """
-        url = create_url()
+        url = self.create_url(given_time)
         
         resp = requests.get(url)
         if resp.status_code == 200:
             downloaded_status = True
-            file_path = path + '/' + working_date_stamp + '.png'
+            file_path = path + '/' + self.working_date_stamp + '.png'
             # writes picture data from response object into the file
             with open(file_path, 'wb') as fd:
                 for chunk in resp.iter_content(chunk_size=128):
@@ -33,13 +37,13 @@ class radarData:
         :return:
         """
         print('downlaoding radar data')
-        time = self.today
+        time = self.get_today_timestamp()
         timedelta_days_to_add = datetime.timedelta(days=-1)    
         timedelta_minutes_to_add = datetime.timedelta(minutes=10)
         time = time + timedelta_days_to_add
         working_date = time
 
-        todays_dir = fileDir + '/weather/scripts/radar_pictures/' + working_date.strftime('%Y%m%d')
+        todays_dir = Credentials().fileDir + '/radar_pictures/' + working_date.strftime('%Y%m%d')
         try:
             os.mkdir(todays_dir)
         except OSError:
@@ -49,7 +53,7 @@ class radarData:
         #todays_dir = '/home/Traabant/Homepage/Homepage/homepage/weather/scripts/radar_pictures'
         index = 0
         while time.date() == working_date.date():
-            if get_radar_data(time, todays_dir):
+            if self.get_radar_data(time, todays_dir):
                 index += 1
             time = time + timedelta_minutes_to_add
 
@@ -60,7 +64,9 @@ class radarData:
 
         today_sting = datetime.datetime.today().strftime('%Y-%m-%d')
         today_sting = today_sting + ' 00:01'
-        self.today = datetime.datetime.strptime(today_sting, '%Y-%m-%d %H:%M')    
+        self.today = datetime.datetime.strptime(today_sting, '%Y-%m-%d %H:%M')   
+        return datetime.datetime.strptime(today_sting, '%Y-%m-%d %H:%M') 
+        pass 
     
 
     def create_url(self, given_time):
@@ -80,9 +86,9 @@ class radarData:
             given_curent_minutes = '40'
         elif given_curent_minutes <= 60:
             given_curent_minutes = '50'
-        working_date_stamp = given_time.strftime('%Y%m%d.%H') + given_curent_minutes
+        self.working_date_stamp = given_time.strftime('%Y%m%d.%H') + given_curent_minutes
         url = 'http://portal.chmi.cz/files/portal/docs/meteo/rad/inca-cz/data/czrad-z_max3d/pacz2gmaps3.z_max3d.' + \
-            working_date_stamp + '.0.png'
+            self.working_date_stamp + '.0.png'
         
         return url
     

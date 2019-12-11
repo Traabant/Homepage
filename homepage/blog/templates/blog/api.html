@@ -1,0 +1,18 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h4>Links to API calls</br></h4>
+<ul>
+    <li>
+        <a class="btn btn-primary" href="{% url 'todayTemps' %}" role="button">Temps Today</a>
+    </li>
+    <li>
+        <a class="btn btn-primary" href="{% url 'tomorowTemps' %}" role="button">Temps Tomorow</a>
+    </li>
+    <li>
+        <a class="btn btn-primary" href="{% url 'radarImageNames' %}" role="button">Radar Imagage Names</a>
+    </li>
+    <li>
+        <a class="btn btn-primary" href="{% url 'pollution' %}" role="button">Pollution</a>
+    </li>
+</ul>       
+{% endblock %}

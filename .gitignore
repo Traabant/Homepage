@@ -13,3 +13,6 @@ launch.json
 workspace.xml
 siba.xml
 
+homepage/radar_pictures/*
+
+homepage/scripts/credentials.py
