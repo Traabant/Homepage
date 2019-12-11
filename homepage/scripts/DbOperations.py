@@ -94,3 +94,32 @@ class DbOperations:
             list_to_return.append(item)
         return list_to_return   
 
+    def dump_data_github_repos(self,date, git_id, node_id, owner_id, name, full_name, html, descripton):
+        string_to_execute = "INSERT INTO github_repos(date_added, git_id, node_id, owner_id, name, full_name, html, description) \
+                            VALUES('%s','%s','%s', '%s', '%s', '%s', '%s', '%s')" \
+                            % (date, git_id, node_id, owner_id, name, full_name, html, descripton)
+        
+        #  = INSERT INTO github_repos(git_id, node_id, owner_id, name, full_name, html, description) VALUES('176527851','MDEwOlJlcG9zaXRvcnkxNzY1Mjc4NTE=', 'Traabant, Homepage, Traabant/Homepage, https://github.com/Traabant/Homepage, None')
+        print(string_to_execute)
+        self.cursor.execute(string_to_execute)
+        self.connection.commit()
+    
+    def get_data_github_repos(self):
+        string_to_execute = "SELECT * FROM github_repos"
+        self.cursor.execute(string_to_execute)
+        fetchedlist = self.cursor.fetchall()
+        list_to_return = []
+        for item in fetchedlist:
+            data = {
+                "date_added": item[1],
+                "id": item[0],
+                "git_id": item[2],
+                "node_id": item[3],
+                "owner_id": item[8],
+                "name": item[4],
+                "fullname": item[5],
+                "html": item[6],
+                "description": item[7]
+            }
+            list_to_return.append(data)
+        return list_to_return   
