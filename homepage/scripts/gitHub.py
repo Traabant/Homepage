@@ -2,8 +2,10 @@ import requests
 import json
 import datetime
 
-from DbOperations import DbOperations
-from credentials import Credentials
+from scripts.DbOperations import DbOperations
+from scripts.credentials import Credentials
+# from DbOperations import DbOperations
+# from credentials import Credentials
 
 class GitHub():
     def __init__(self):

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from users import views as user_views
 from weather import views as weather_views
+from github import views as github_views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -26,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
     path('api/', include('api.urls')),
-    path('', include('blog.urls')),
+    path('', github_views.home, name='home'),
     path('dev/' ,weather_views.dev, name='dev'),
     path('register/', user_views.register, name='register'),
     path('weather/', weather_views.weather, name='weather'),

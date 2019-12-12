@@ -3,7 +3,7 @@ import requests
 import json
 import os
 
-from credentials import Credentials
+from scripts.credentials import Credentials
 
 class radarData:
     def __init__(self):
