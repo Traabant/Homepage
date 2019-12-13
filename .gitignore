@@ -16,3 +16,5 @@ siba.xml
 homepage/radar_pictures/*
 
 homepage/scripts/credentials.py
+homepage/github/migrations/0001_initial.py
+homepage/weather/migrations/0003_consumption_events_gallery_pollution_weather2_weather_forcast.py_

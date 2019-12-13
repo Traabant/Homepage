@@ -7,10 +7,15 @@ weatherpatterns = [
     path('pollution', views.pollution, name='pollution'),
 ] 
 
+githubPatterns = [
+    path('', views.git_repos, name="git_repos" ),
+]
+
 urlpatterns = [
     path('', views.index, name='api'),
     path('get-images', views.radarImageNames, name='radarImageNames'),
     path('weather/', include(weatherpatterns)),
+    path('github/', include(githubPatterns)),
 
 ]
 

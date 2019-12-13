@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'weather.apps.WeatherConfig',
     'api.apps.ApiConfig',
+    'github.apps.GithubConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

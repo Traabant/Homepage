@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from scripts import radarData, weather
 
+from github.models import repos, authors
+
 # Create your views here.
 
 def index(request):
@@ -30,3 +32,30 @@ def pollution(request):
     w = weather.Weather()
     context = w.polution()
     return JsonResponse(context)
+    
+
+def git_repos(request):
+    
+    data_from_db = repos.objects.all()
+    context = []
+    for repo in data_from_db:
+        owener = authors.objects.get(git_id=repo.owner_id)
+        data = {
+            "id": repo.git_id,
+            'name': repo.name,
+            'html': repo.html,
+            'git_html': repo.git_html,
+            'owner': owener.login,
+            'description': repo.description,
+        }
+        context.append(data)    
+        response = JsonResponse(context, safe=False)
+
+        response["Access-Control-Allow-Origin"] = "https://traabant.github.io"
+        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        response["Access-Control-Max-Age"] = "1000"
+        response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+        response["Access-Control-Allow-Credentials"] = "true"
+    
+    return response
+

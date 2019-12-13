@@ -1,4 +1,5 @@
 import sqlite3
+from sqlite3 import Error
 
 class DbOperations:
     """
@@ -73,3 +74,56 @@ class DbOperations:
         self.cursor.execute(string_to_execute)
         self.connection.commit()
 
+    def dump_data_github_authors(self, git_id, node_id, login):
+        string_to_execute = "INSERT INTO github_authors(git_id, node_id, login)\
+         VALUES('%d','%s', '%s')" \
+                            % (git_id, node_id, login)
+        self.cursor.execute(string_to_execute)
+        self.connection.commit()
+
+    def get_data_github_authors(self):
+        """
+        returns list with tuples in format:
+        Id, git_id, node_id, login
+        """
+        string_to_execute = "SELECT * FROM github_authors"
+        self.cursor.execute(string_to_execute)
+        fetchedlist = self.cursor.fetchall()
+        list_to_return = []
+        for item in fetchedlist:
+            data = {
+                "id": item[0],
+                "git_id": item[1],
+                "node_id": item[2],
+                "login": item[3]
+            }
+            list_to_return.append(data)
+        return list_to_return   
+
+    def dump_data_github_repos(self,date, git_id, node_id, owner_id, name, full_name, git_html, descripton, html):
+        string_to_execute = "INSERT INTO github_repos(date_added, git_id, node_id, \
+                            owner_id, name, full_name, git_html, description, html) \
+                            VALUES('%s','%s','%s', '%s', '%s', '%s', '%s', '%s', '%s')" \
+                            % (date, git_id, node_id, owner_id, name, full_name, git_html, descripton, html)      
+        self.cursor.execute(string_to_execute)
+        self.connection.commit()
+    
+    def get_data_github_repos(self):
+        string_to_execute = "SELECT * FROM github_repos"
+        self.cursor.execute(string_to_execute)
+        fetchedlist = self.cursor.fetchall()
+        list_to_return = []
+        for item in fetchedlist:
+            data = {
+                "date_added": item[1],
+                "id": item[0],
+                "git_id": item[2],
+                "node_id": item[3],
+                "owner_id": item[8],
+                "name": item[4],
+                "fullname": item[5],
+                "html": item[6],
+                "description": item[7]
+            }
+            list_to_return.append(data)
+        return list_to_return   
