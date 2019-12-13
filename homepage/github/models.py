@@ -13,6 +13,7 @@ class repos(models.Model):
     full_name = models.TextField()
     html = models.URLField()
     description = models.TextField()     
+    git_html =  models.URLField()
 
     def __str__(self):
         return self.name

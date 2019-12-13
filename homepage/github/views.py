@@ -14,7 +14,9 @@ def home(request):
             "id": repo.git_id,
             'name': repo.name,
             'html': repo.html,
+            'git_html': repo.git_html,
             'owner': owener.login,
+            'description': repo.description,
         }
         repos_list.append(data)
 

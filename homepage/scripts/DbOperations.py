@@ -100,14 +100,11 @@ class DbOperations:
             list_to_return.append(data)
         return list_to_return   
 
-    def dump_data_github_repos(self,date, git_id, node_id, owner_id, name, full_name, html, descripton):
+    def dump_data_github_repos(self,date, git_id, node_id, owner_id, name, full_name, git_html, descripton, html):
         string_to_execute = "INSERT INTO github_repos(date_added, git_id, node_id, \
-                            owner_id, name, full_name, html, description) \
-                            VALUES('%s','%s','%s', '%s', '%s', '%s', '%s', '%s')" \
-                            % (date, git_id, node_id, owner_id, name, full_name, html, descripton)
-        
-        #  = INSERT INTO github_repos(git_id, node_id, owner_id, name, full_name, html, description) VALUES('176527851','MDEwOlJlcG9zaXRvcnkxNzY1Mjc4NTE=', 'Traabant, Homepage, Traabant/Homepage, https://github.com/Traabant/Homepage, None')
-        print(string_to_execute)
+                            owner_id, name, full_name, git_html, description, html) \
+                            VALUES('%s','%s','%s', '%s', '%s', '%s', '%s', '%s', '%s')" \
+                            % (date, git_id, node_id, owner_id, name, full_name, git_html, descripton, html)      
         self.cursor.execute(string_to_execute)
         self.connection.commit()
     

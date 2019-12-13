@@ -58,7 +58,7 @@ class GitHub():
                 if self.is_new_repo(repo['id']):
                     self.db.dump_data_github_repos(today, repo['id'], repo['node_id'], \
                         repo['owner']['id'], repo['name'], repo['full_name'], \
-                            repo['html_url'], repo['description'])
+                            repo['html_url'], repo['description'], repo['homepage'])
                     print('saving new repo to db')
 
                 if self.is_new_user(repo['owner']['id']):
