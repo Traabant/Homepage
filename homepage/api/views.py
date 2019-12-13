@@ -51,10 +51,11 @@ def git_repos(request):
         context.append(data)    
         response = JsonResponse(context, safe=False)
 
-        response["Access-Control-Allow-Origin"] = "http://127.0.0.1:5500"
+        response["Access-Control-Allow-Origin"] = "https://traabant.github.io"
         response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
         response["Access-Control-Max-Age"] = "1000"
         response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
         response["Access-Control-Allow-Credentials"] = "true"
     
     return response
+
