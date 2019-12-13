@@ -1,5 +1,5 @@
 
-const apiURL = "http://traabant.pythonanywhere.com/api/get-images";
+const apiURL = "https://traabant.pythonanywhere.com/api/get-images";
 // const apiURL = "http://127.0.0.1:8000/weather/get-images";
 const getJsonData = new XMLHttpRequest();
 const getIMG = new XMLHttpRequest();
