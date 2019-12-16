@@ -1,4 +1,4 @@
-from getWeather import GetWeather
+from scripts.getWeather import GetWeather
 
 # This script is run every our by scheduler
 

@@ -1,4 +1,5 @@
-import DbOperations, os
+from scripts.DbOperations import DbOperations
+import os
 
 class Compare:
     """
@@ -20,7 +21,7 @@ class Compare:
         self.table = table
         new_events = []
 
-        db = DbOperations.DbOperations(self.db_file_name)
+        db = DbOperations(self.db_file_name)
         source_file_lines = db.get_events_from_db(self.table)
         bad_str = 'Railsformers s.r.o.'
         bigger_file_len = len(self.list)

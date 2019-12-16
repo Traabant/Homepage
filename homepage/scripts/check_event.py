@@ -1,8 +1,8 @@
-from myLog import MyLog as log
-from compare import Compare
-from DbOperations import DbOperations
-from myEmail import Email
-from credentials import Credentials
+from scripts.myLog import MyLog as log
+from scripts.compare import Compare
+from scripts.DbOperations import DbOperations
+from scripts.myEmail import Email
+from scripts.credentials import Credentials
 
 import requests
 from bs4 import BeautifulSoup

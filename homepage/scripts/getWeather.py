@@ -1,5 +1,5 @@
-from credentials import Credentials
-from DbOperations import DbOperations
+from scripts.credentials import Credentials
+from scripts.DbOperations import DbOperations
 
 import requests
 import json
