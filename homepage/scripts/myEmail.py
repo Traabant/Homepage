@@ -1,4 +1,4 @@
-from myLog import MyLog as log
+from scripts.myLog import MyLog as log
 
 class Email():
 

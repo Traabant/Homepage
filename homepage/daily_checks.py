@@ -1,6 +1,6 @@
-from check_event import CheckEents
-from getWeather import GetWeather
-from radarData import radarData
+from scripts.check_event import CheckEents
+from scripts.getWeather import GetWeather
+from scripts.radarData import radarData
 
 # This script is run once a day by scheduler
 
