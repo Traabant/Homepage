@@ -57,3 +57,13 @@ class Gallery(models.Model):
 class Info(models.Model):
     Date = models.TextField()
     Info = models.TextField()
+
+
+class HomeWeather(models.Model):
+    date = models.DateTimeField(default=timezone.now)
+    temperature = models.FloatField()
+    pressure = models.FloatField()
+    room = models.TextField(max_length="20", default="")
+
+    def __str__(self):
+        return (self.temperature)

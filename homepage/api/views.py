@@ -4,6 +4,10 @@ from django.http import JsonResponse
 from scripts import radarData, weather
 
 from github.models import repos, authors
+from weather.models import HomeWeather
+
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 
@@ -59,3 +63,25 @@ def git_repos(request):
     
     return response
 
+@csrf_exempt
+def print_body(request):
+    r = radarData.radarData()
+    context = r.get_last_x_images()
+
+    print(request.POST['message'])
+
+    return JsonResponse(context)
+
+
+@csrf_exempt
+def save_temps(request):
+    temp = request.POST['temperature']
+    pressure = request.POST['pressure']
+    room = request.POST['room']
+
+    data = HomeWeather(temperature=temp, pressure = pressure, room= room)
+    data.save()
+
+    r = radarData.radarData()
+    context = r.get_last_x_images()
+    return JsonResponse(context)
