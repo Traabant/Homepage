@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Weather2, Consumption, Events, Gallery, Pollution, Weather_forcast
+from .models import Weather2, Consumption, Events, Gallery, Pollution, Weather_forcast, HomeWeather
 # from .scripts import consuption, check, radarData
 
 from .scripts import consuption
@@ -104,6 +104,7 @@ def get_weather_data_from_db():
         'polution': Weather.Weather().analyze_air_polution(pollution_form_db.pollution_index),
         'pollution_date': pollution_form_db.datetime,
         'polution_index': pollution_form_db.pollution_index,
+        'cur_temp':HomeWeather.objects.all().order_by('-id')[:1],
     }
 
     # converts temp data in list from K to C
