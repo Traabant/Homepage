@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from scripts import radarData, weather
 
 from github.models import repos, authors
@@ -65,12 +65,8 @@ def git_repos(request):
 
 @csrf_exempt
 def print_body(request):
-    r = radarData.radarData()
-    context = r.get_last_x_images()
-
-    print(request.POST['message'])
-
-    return JsonResponse(context)
+    print(request.POST)
+    return HttpResponse('OK')
 
 
 @csrf_exempt
