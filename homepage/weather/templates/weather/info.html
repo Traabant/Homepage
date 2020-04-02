@@ -4,14 +4,21 @@
 <div class="col-md-12">
     <h1>Weater info</h1>
 </div>
+
 <div class="col-md-12">
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Check forcast now</button>
+    <article class="media content-section">
+        <div class="media-body">
+            <h4>Current TEMP</h4>
+            {% for item in cur_temp %}
+            <p>
+                {{item.temperature}}°C
+            </p>
+            <small class="text-muted">Posledni meření teploty probehlo {{ item.date }}</small>
+            {% endfor %}
         </div>
-    </form>
+    </article>
 </div>
+
 <div class="col-md-4">
 
     <article class="media content-section">

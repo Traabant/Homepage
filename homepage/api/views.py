@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseServerError
 from scripts import radarData, weather
 
 from github.models import repos, authors
@@ -65,23 +65,20 @@ def git_repos(request):
 
 @csrf_exempt
 def print_body(request):
-    r = radarData.radarData()
-    context = r.get_last_x_images()
-
-    print(request.POST['message'])
-
-    return JsonResponse(context)
+    print(request.POST)
+    return HttpResponse('OK')
 
 
 @csrf_exempt
 def save_temps(request):
-    temp = request.POST['temperature']
-    pressure = request.POST['pressure']
-    room = request.POST['room']
+    try:
+        temp = request.POST['temperature']
+        pressure = request.POST['pressure']
+        room = request.POST['room']
 
-    data = HomeWeather(temperature=temp, pressure = pressure, room= room)
-    data.save()
+        data = HomeWeather(temperature=temp, pressure = pressure, room= room)
+        data.save()
 
-    r = radarData.radarData()
-    context = r.get_last_x_images()
-    return JsonResponse(context)
+        return HttpResponse('OK')
+    except:
+        return HttpResponseServerError()
