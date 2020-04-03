@@ -1,20 +1,16 @@
-var apiURL = '/api/weather/get-temps';
+var tempsApiURL = '/api/weather/get-temps';
 const getJsonData = new XMLHttpRequest();
 
-getJsonData.open("GET", apiURL);
+getJsonData.open("GET", tempsApiURL);
 getJsonData.send();
 
-var data;
+var tempsData;
 
-function writeOut(){
-    console.log(data)
-    graf();
-}
 
 getJsonData.onreadystatechange = (e) => {    
     if(getJsonData.readyState == 4 && getJsonData.status == 200){
       response = getJsonData.responseText;
-      data = JSON.parse(response);
+      tempsData = JSON.parse(response);
       makeGraf();
     }   
   }
@@ -23,10 +19,10 @@ function makeGraf(){
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: data.timestamps,
+            labels: tempsData.timestamps,
             datasets: [{
                 label: 'Temp',
-                data: data.temps,
+                data: tempsData.temps,
                 fill: false,
                 pointRadius: 1,
                 pointBackgroundColor:'rgba(255, 99, 132, 0.2)',
