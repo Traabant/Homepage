@@ -28,7 +28,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('api/', include('api.urls')),
     path('', github_views.home, name='home'),
-    path('dev/' ,github_views.home, name='dev'),
+    path('dev/' ,weather_views.dev, name='dev'),
     path('register/', user_views.register, name='register'),
     path('weather/', weather_views.weather, name='weather'),
     path('weather/get-images', weather_views.radarImage, name='radarImages'),
