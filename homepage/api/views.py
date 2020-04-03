@@ -82,3 +82,23 @@ def save_temps(request):
         return HttpResponse('OK')
     except:
         return HttpResponseServerError()
+
+
+def get_temps(request):
+    data = HomeWeather.objects.all().order_by('-id')[:1440]
+    dates = []
+    timestamps = []
+    for item in data:
+        dates.append(item.temperature)
+        cur_timestamp = item.date.strftime("%H:%M")
+        timestamps.append(cur_timestamp)
+    
+    dates.reverse()
+    timestamps.reverse()
+    parsed_data = {
+        "temps": dates,
+        "timestamps": timestamps,
+    }
+    context = JsonResponse(parsed_data, safe=False)
+
+    return context

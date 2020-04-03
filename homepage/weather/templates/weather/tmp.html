@@ -2,11 +2,11 @@
 {% load static from staticfiles %}
 
 {% block content %}
-    <div class="col-md-12">
-        <div id="radar-img" class="radar-img">
-            <img src="{% static 'assets/backgroud.jpg' %}" class="backgroundImage" >
-            <img src="{% static 'assets/cities.png' %}" class="citiesLayer" >
-            <script src="{% static 'scripts/radardata.js' %}"></script>
+    <div class="col-md-6">
+        <div id="temps_graf" class="temps_graf">    
+            <canvas id="myChart" width="200" height="200"></canvas>   
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>    
+            <script src="{% static 'scripts/tempGraf.js' %}"></script>
         </div>
     </div>
 {% endblock %}

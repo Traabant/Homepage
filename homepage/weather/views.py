@@ -11,8 +11,9 @@ from scripts import weather as Weather
 
 from django.http import JsonResponse
 
+def dev(request):
 
-# Views
+    return render(request, 'weather/tmp.html')
 
 
 def weather(request):

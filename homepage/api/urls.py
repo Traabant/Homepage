@@ -6,6 +6,7 @@ weatherpatterns = [
     path('tomorow', views.tomorowTemps, name='tomorowTemps'),
     path('pollution', views.pollution, name='pollution'),
     path('save-home-temps', views.save_temps, name="save-home-temps"),
+    path('get-temps', views.get_temps, name="get-temps"),
     path('print', views.print_body, name="print body")
 ] 
 
