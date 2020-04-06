@@ -85,7 +85,7 @@ def save_temps(request):
 
 
 def get_temps(request):
-    data = HomeWeather.objects.all().order_by('-id')[:1440]
+    data = HomeWeather.objects.all().order_by('-id')[:288]
     dates = []
     timestamps = []
     for item in data:
