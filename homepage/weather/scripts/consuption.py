@@ -109,23 +109,12 @@ def histroy(list_with_correct_data):
     del consuption_history["consuption"][0]   # first entry is off scale
     del consuption_history["date"][0]  # first entry is off scale
 
-    # plot object
-    fig = plt.figure()
-    line = fig.add_subplot(1, 1, 1)
-    line.plot(consuption_history["consuption"])
+    data = {
+        "consuption": consuption_history["consuption"],
+        "dates": consuption_history["date"],
+    }
 
-    # sets ticks for x axis from date list
-    tick_marks = np.arange(len(consuption_history["date"]))
-    plt.xticks(tick_marks, consuption_history["date"], rotation=45)
-
-    # show every nth tick on X axis
-    every_nth = 8
-    for n, label in enumerate(line.xaxis.get_ticklabels()):
-        if n % every_nth != 0:
-            label.set_visible(False)
-
-    plt.savefig(grafLoacation, dpi=430)
-    # plt.show()
+    return data
 
 
 def main():
@@ -161,5 +150,15 @@ def main():
             date=date_added, total_km=last_mileage,
             traveled_km=total_mileage, total_fuel=current_fuel, curent_consuption=consumption*100
         )
-        data_to_db.save()
-        histroy(list_with_correct_data)
+
+        history_data = histroy(list_with_correct_data)
+        last_entry = Consumption.objects.all().last()
+
+        # checks if its new entry, saves it to DB if it is
+        if (history_data['dates'][-1] != last_entry.date):
+            data_to_db.save()
+        
+        return history_data
+
+if __name__ == "__main__":
+    main()
