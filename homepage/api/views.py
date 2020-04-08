@@ -6,6 +6,8 @@ from scripts import radarData, weather
 from github.models import repos, authors
 from weather.models import HomeWeather
 
+from weather.scripts import consuption
+
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -101,4 +103,10 @@ def get_temps(request):
     }
     context = JsonResponse(parsed_data, safe=False)
 
+    return context
+
+def get_fuel_history(request):
+    data  = consuption.main()
+    context = JsonResponse(data, safe=False)
+    
     return context
