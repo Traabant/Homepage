@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Navbar(){
+function Navbar(props){
     var sites = populateSites();      
       return (
         <div>

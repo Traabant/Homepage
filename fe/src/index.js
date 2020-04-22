@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+// import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Helloword from './components/Helloword';
 import Navbar from './components/Navbar';
+// import Weather from './components/Weather';
 
 ReactDOM.render(
   <React.StrictMode>

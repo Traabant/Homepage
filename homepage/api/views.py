@@ -85,7 +85,7 @@ def save_temps(request):
     except:
         return HttpResponseServerError()
 
-
+@csrf_exempt
 def get_temps(request):
     data = HomeWeather.objects.all().order_by('-id')[:288]
     dates = []
@@ -102,6 +102,7 @@ def get_temps(request):
         "timestamps": timestamps,
     }
     context = JsonResponse(parsed_data, safe=False)
+    context["Access-Control-Allow-Origin"] = "*"
 
     return context
 
