@@ -19,7 +19,7 @@ export default class CurrentTemp extends React.Component{
     render(){
         return(
             <div>
-                <h1>Weather</h1>
+               
                 {!this.state.curTemp ? ( 
                     <div>loading...</div>
                 ) : (
