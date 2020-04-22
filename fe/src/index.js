@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Helloword from './Helloword';
+import Helloword from './components/Helloword';
+import Navbar from './components/Navbar';
 
 ReactDOM.render(
   <React.StrictMode>
     {/* <App /> */}
+    <Navbar />
     <Helloword />
   </React.StrictMode>,
   document.getElementById('root')
