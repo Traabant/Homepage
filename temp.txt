@@ -1,0 +1,46 @@
+Duplicati Backup report for Test_S3
+
+DeletedFiles: 0
+DeletedFolders: 0
+ModifiedFiles: 0
+ExaminedFiles: 1118
+OpenedFiles: 0
+AddedFiles: 0
+SizeOfModifiedFiles: 0
+SizeOfAddedFiles: 0
+SizeOfExaminedFiles: 532735733
+SizeOfOpenedFiles: 0
+NotProcessedFiles: 0
+AddedFolders: 0
+TooLargeFiles: 0
+FilesWithError: 0
+ModifiedFolders: 0
+ModifiedSymlinks: 0
+AddedSymlinks: 0
+DeletedSymlinks: 0
+PartialBackup: False
+Dryrun: False
+MainOperation: Backup
+ParsedResult: Success
+Version: 2.0.5.1 (2.0.5.1_beta_2020-01-18)
+EndTime: 16.04.2020 8:52:02 (1587019922)
+BeginTime: 16.04.2020 8:51:46 (1587019906)
+Duration: 00:00:15.6538173
+MessagesActualLength: 17
+WarningsActualLength: 0
+ErrorsActualLength: 0
+LimitedMessages: [
+    2020-04-16 08:51:46 +02 - [Information-Duplicati.Library.Main.Controller-StartingOperation]: Operace Backup zahájena,
+    2020-04-16 08:51:46 +02 - [Information-Duplicati.Library.Main.BasicResults-BackendEvent]: Backend event: List - Started:  (),
+    2020-04-16 08:51:46 +02 - [Information-Duplicati.Library.Main.BasicResults-BackendEvent]: Backend event: List - Completed:  (20 bajtů),
+    2020-04-16 08:51:47 +02 - [Information-Duplicati.Library.Main.Operation.DeleteHandler:RetentionPolicy-StartCheck]: Start checking if backups can be removed,
+    2020-04-16 08:51:47 +02 - [Information-Duplicati.Library.Main.Operation.DeleteHandler:RetentionPolicy-FramesAndIntervals]: Time frames and intervals pairs: 7.00:00:00 / 1.00:00:00, 28.00:00:00 / 7.00:00:00, 365.00:00:00 / 31.00:00:00,
+    2020-04-16 08:51:47 +02 - [Information-Duplicati.Library.Main.Operation.DeleteHandler:RetentionPolicy-BackupList]: Backups to consider: 15.04.2020 9:30:00, 14.04.2020 7:35:07, 30.03.2020 15:11:16,
+    2020-04-16 08:51:47 +02 - [Information-Duplicati.Library.Main.Operation.DeleteHandler:RetentionPolicy-BackupsToDelete]: Backups outside of all time frames and thus getting deleted: ,
+    2020-04-16 08:51:47 +02 - [Information-Duplicati.Library.Main.Operation.DeleteHandler:RetentionPolicy-AllBackupsToDelete]: All backups to delete: ,
+    2020-04-16 08:51:47 +02 - [Information-Duplicati.Library.Main.Operation.DeleteHandler-DeleteResults]: No remote filesets were deleted,
+    2020-04-16 08:51:47 +02 - [Information-Duplicati.Library.Main.BasicResults-BackendEvent]: Backend event: List - Started:  (),
+...
+]
+LimitedWarnings: []
+LimitedErrors: []
