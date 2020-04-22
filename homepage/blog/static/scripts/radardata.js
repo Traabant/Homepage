@@ -1,10 +1,10 @@
 
-const apiURL = "https://traabant.pythonanywhere.com/api/get-images";
-// const apiURL = "http://127.0.0.1:8000/weather/get-images";
-const getJsonData = new XMLHttpRequest();
+const radarApiURL = "/api/get-images";
+// const radarApiURL = "http://127.0.0.1:8000/weather/get-images";
+const getRadarData = new XMLHttpRequest();
 const getIMG = new XMLHttpRequest();
 
-var response;
+var rada_response;
 var imageData;
 var images = new Array;
 
@@ -14,8 +14,8 @@ var citiesLayer = document.getElementById("citiesLayer");
 var radarID = document.getElementById("radar-img");
 
 
-getJsonData.open("GET", apiURL);
-getJsonData.send();
+getRadarData.open("GET", radarApiURL);
+getRadarData.send();
 
 window.addEventListener("resize", resizeAnamationBox);
 
@@ -35,10 +35,10 @@ function writeOut(){
   cycle(); 
 }
 
-getJsonData.onreadystatechange = (e) => {    
-  if(getJsonData.readyState == 4 && getJsonData.status == 200){
-    response = getJsonData.responseText;
-    imageData = JSON.parse(response);
+getRadarData.onreadystatechange = (e) => {    
+  if(getRadarData.readyState == 4 && getRadarData.status == 200){
+    rada_response = getRadarData.responseText;
+    imageData = JSON.parse(rada_response);
     writeOut(); 
   }   
 }

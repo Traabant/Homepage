@@ -10,8 +10,6 @@ from weather.scripts import consuption
 
 from django.views.decorators.csrf import csrf_exempt
 
-from scripts.tmp import Testing
-
 
 # Create your views here.
 
@@ -68,9 +66,8 @@ def git_repos(request):
     return response
 
 @csrf_exempt
-def print_body(request):   
-    t =Testing(request.POST['message'])
-    t.parse()
+def print_body(request):
+    print(request.POST)
     return HttpResponse('OK')
 
 
@@ -90,7 +87,7 @@ def save_temps(request):
 
 
 def get_temps(request):
-    data = HomeWeather.objects.all().order_by('-id')[:1440]
+    data = HomeWeather.objects.all().order_by('-id')[:288]
     dates = []
     timestamps = []
     for item in data:
