@@ -3,11 +3,22 @@ import React from 'react';
 function Navbar(props){
     var sites = populateSites();      
       return (
-        <div>
-            <div>
-                {createNavBar(sites)}                  
-            </div>              
-        </div>
+        // <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+                    <a class="navbar-brand mr-4" href="/">Traabant's Homepage</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarToggle">
+                        <div class="collapse navbar-collapse" id="navbarToggle">
+                            <div class="navbar-nav mr-auto">
+                                {createNavBar(sites)}                  
+                            </div>                        
+                        </div>
+                    </div>
+                                                
+            </nav >
+        // </header>
     );
 }
 
@@ -15,9 +26,8 @@ function createNavBar(items){
     var content = [];    
     for(var i=0 ; i < items.length; i++){
         content.push(
-            <div>
-                <a href={items[i].link}>{items[i].name}</a>                
-            </div>
+            <a href={items[i].link} class="nav-link">{items[i].name}</a>
+                        
         );
     };
     return content

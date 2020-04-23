@@ -11,9 +11,9 @@ function App() {
       
         <Router>
           <Navbar />
-          <div class="container">
-            <BaseRouter />
-          </div>
+            <main role="main" class="container">
+              <BaseRouter />
+            </main>
         </Router>
      
     </div>
