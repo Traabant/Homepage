@@ -7,10 +7,12 @@ export default class Weather extends React.Component{
   
     render(){
         return(
-            <div>
+            <div class="row">
+                <div class="col-md-12">
                  <h1>Weather</h1>
                 <CurrentTemp />
                 <WeatherForcast />
+                </div>
             </div>
         )
     }

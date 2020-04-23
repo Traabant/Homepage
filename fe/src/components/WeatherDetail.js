@@ -11,19 +11,23 @@ export default class Weather extends React.Component{
 
     render(){
         return(
-            <div>
+            // <div class="card mb-8 shadow-sm">
+            <div class="col-md-4"> 
                 {/* {this.props.weather} */}
-                <div>
-                    <div>
-                        {this.props.weather.weather[0].main}
-                    </div>
-                    <div>
-                        temp is {this.convert_from_K(this.props.weather.main.temp).toFixed(1)}
-                    </div>
-                    <div>
-                        for time {this.props.weather.dt_txt}
+                {/* <div class="media content-section"> */}
+                    <div class="card-header">
+                        {this.props.weather.dt_txt}
                     </div> 
-                </div>
+                    <div class="card-body">
+                        <div class="my-0 font-weight-normal">
+                            {this.props.weather.weather[0].main}
+                        </div>
+                        <div class="my-0 font-weight-normal">
+                            temp is {this.convert_from_K(this.props.weather.main.temp).toFixed(1)}
+                        </div>
+                    </div>
+                    
+                {/* </div> */}
             </div>
         )
     }

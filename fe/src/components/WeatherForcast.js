@@ -36,10 +36,9 @@ export default class Weather extends React.Component{
                 {this.state.data.length === 0 ? ( 
                     <div>loading...</div>
                 ) : (
-                    <ul> 
+                    <div class="card-deck mb-3 text-center"> 
                         {this.state.data}
-                        {/* <WeatherDeatil weather={this.state.raw_data} /> */}
-                    </ul>
+                    </div>
                 )
                 }
             </div>
