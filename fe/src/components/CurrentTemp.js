@@ -18,14 +18,18 @@ export default class CurrentTemp extends React.Component{
     
     render(){
         return(
-            <div>
+            <div class="col-md-4">
+                <div class="card-header">
+                    Current Temp
+                </div>
                
-                {!this.state.curTemp ? ( 
-                    <div>loading...</div>
-                ) : (
-                    <div> Current temp is {this.state.curTemp} C</div>
-                )
-                }
+                    {!this.state.curTemp ? ( 
+                        <div class="card-body">loading...</div>
+                    ) : (
+                        <div class="card-body"> {this.state.curTemp} C</div>
+                    )
+                    }
+                
             </div>
         )
     }    

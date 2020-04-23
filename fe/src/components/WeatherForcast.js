@@ -32,7 +32,7 @@ export default class Weather extends React.Component{
 
     render(){
         return(
-            <div>    
+            <div class="col-md-12">    
                 {this.state.data.length === 0 ? ( 
                     <div>loading...</div>
                 ) : (
