@@ -1,9 +1,12 @@
 import React from 'react';
 
+import WeatherDeatil from './WeatherDetail';
+
 export default class Weather extends React.Component{
     state = {
         loading: true,
-        data: null,
+        raw_data: null,
+        data: [],
     }
   
     async componentDidMount(){
@@ -12,21 +15,31 @@ export default class Weather extends React.Component{
         const response = await fetch(URL);
         const data = await response.json();
         console.log(data);
-        this.setState({data: data});
+        this.setState({raw_data: data});
         
+        const listItems = this.state.raw_data.list.map((item) =>
+            <WeatherDeatil weather={item} />
+        );        
+        this.setState({data: listItems})
         }
+
+        
 
     convert_from_K(kelvin) {
         return (kelvin - 273.15)
     }
 
+
     render(){
         return(
-            <div>               
-                {!this.state.data ? ( 
+            <div>    
+                {this.state.data.length === 0 ? ( 
                     <div>loading...</div>
                 ) : (
-                    <div> {this.convert_from_K(this.state.data.list[0].main.temp)}</div>
+                    <ul> 
+                        {this.state.data}
+                        {/* <WeatherDeatil weather={this.state.raw_data} /> */}
+                    </ul>
                 )
                 }
             </div>
