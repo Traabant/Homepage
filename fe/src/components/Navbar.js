@@ -25,11 +25,11 @@ function createNavBar(items){
 
 function populateSites(){
     return [
-        new Site("Home", ""), 
-        new Site("Weather", ""),
-        new Site("Consuption", ""),
-        new Site("API", ""),
-        new Site("Test",""),
+        new Site("Home", "/"), 
+        new Site("Weather", "/weather"),
+        new Site("Consuption", "/consuption"),
+        new Site("API", "/api"),
+        new Site("Test","/test"),
         ];
 }
 
