@@ -2,6 +2,8 @@ import React from 'react';
 
 import WeatherDeatil from './WeatherDetail';
 
+import '../Weather.css'
+
 export default class Weather extends React.Component{
     state = {
         loading: true,
@@ -31,16 +33,21 @@ export default class Weather extends React.Component{
 
 
     render(){
-        return(
-            <div class="col-md-12">    
-                {this.state.data.length === 0 ? ( 
-                    <div>loading...</div>
-                ) : (
-                    <div class="card-deck mb-3 text-center"> 
-                        {this.state.data}
+        return(            
+            <div class="col-md-12" >  
+                <div class="wraper">
+                    <div class="Weather-forecast"> 
+                    
+                        {this.state.data.length === 0 ? ( 
+                            <div>loading...</div>
+                        ) : (
+                            <div class="card-deck mb-3 text-center"> 
+                                {this.state.data}
+                            </div>
+                        )
+                        }
                     </div>
-                )
-                }
+                </div>
             </div>
         )
     }    
