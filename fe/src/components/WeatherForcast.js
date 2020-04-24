@@ -18,15 +18,13 @@ export default class Weather extends React.Component{
         }
     }
     
-    componentDidUpdate(prevProps){
-        console.log(prevProps.selectedCity, this.state.selectedCity)
+    componentDidUpdate(prevProps){       
         if (prevProps.selectedCity !== this.props.selectedCity){
             this.setState({
                 selectedCity: this.props.selectedCity,
             })
             ;
             this.downloadData(this.props.selectedCity);
-            console.log("did change")
         }
         
     }
@@ -34,10 +32,10 @@ export default class Weather extends React.Component{
     async downloadData(cityName){
         var URL = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName +"&appid=f38cd70321c379afac4b55fb00a3be7a";
         this.setState({URL: URL})
-        console.log(URL)
+        // console.log(URL)
         var response = await fetch(URL);
         var data = await response.json();
-        console.log(data);
+        // console.log(data);
         this.setState({raw_data: data});
         this.setState({city: this.state.raw_data.city.name}) 
         

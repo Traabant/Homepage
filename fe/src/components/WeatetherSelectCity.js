@@ -25,7 +25,7 @@ export default class Weather extends React.Component{
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <input type="text" value={this.state.value} onChange={this.handleChange}></input>
-                    <button type="button" class="btn btn-primary" type="submit" >Submit</button>
+                    <button type="button" class="btn btn-primary" type="submit">Submit</button>
                 </form>
             </div>
         )
