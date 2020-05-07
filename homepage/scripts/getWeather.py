@@ -22,10 +22,12 @@ class GetWeather():
 
         db = DbOperations(Credentials().db_file_name)
 
-        url_json_file = 'http://portal.chmi.cz/files/portal/docs/uoco/web_generator/aqindex_cze.json'
+        url_json_file = 'http://portal.chmi.cz/files/portal/docs/uoco/web_generator/aqindex_3h_cze.json'
         response = requests.get(url_json_file)
         air_pollution_data = json.loads(response.text)
         index_ostrava_portuba = air_pollution_data['States'][0]['Regions'][13]['Stations'][15]['Ix']
+        index_ostrava_portuba = self.get_index(index_ostrava_portuba)
+
         date_pullution = air_pollution_data['States'][0]['DateFromUTC']
         date_pullution = datetime.datetime.strptime(date_pullution, '%Y-%m-%d %H:%M:%S.%f %Z')
         date_pullution = date_pullution + datetime.timedelta(hours=2)
@@ -34,6 +36,30 @@ class GetWeather():
             db.dump_data_pollution_table(date_pullution, index_ostrava_portuba)
             print("data saved in DB")
         print(f'Aktualni index {index_ostrava_portuba} z {date_pullution} stazeno {datetime.datetime.now()}')
+
+    
+    def get_index(self, index):
+        """
+        conversion for new style of index to old one
+        intex - string
+        return - int
+        """
+        
+        if index == "1A":
+            return 1
+        elif index == "1B":
+            return 2
+        elif index == "2A":
+            return 3
+        elif index == "2B":
+            return 4
+        elif index == "3A":
+            return 5
+        elif index == "3B":
+            return 6
+        else:
+            return 0
+
 
 
     def get_weather(self):
