@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from django.http import JsonResponse, HttpResponse, HttpResponseServerError
 from scripts import radarData, weather
+from scripts.myTime import convert_time_from_UTC
 
 from github.models import repos, authors
 from weather.models import HomeWeather
@@ -91,8 +92,9 @@ def get_temps(request):
     dates = []
     timestamps = []
     for item in data:
-        dates.append(item.temperature)
-        cur_timestamp = item.date.strftime("%H:%M")
+        dates.append( item.temperature)
+        cur_timestamp = item.date
+        cur_timestamp = convert_time_from_UTC(cur_timestamp).strftime("%H:%M")        
         timestamps.append(cur_timestamp)
     
     dates.reverse()

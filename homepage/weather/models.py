@@ -65,5 +65,5 @@ class HomeWeather(models.Model):
     pressure = models.FloatField()
     room = models.TextField(max_length="20", default="")
 
-    def __str__(self):
-        return (self.temperature)
+    # def __str__(self):
+    #     return (self.temperature)

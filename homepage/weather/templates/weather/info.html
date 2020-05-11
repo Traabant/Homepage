@@ -9,12 +9,9 @@
     <article class="media content-section">
         <div class="media-body">
             <h4>Current TEMP</h4>
-            {% for item in cur_temp %}
-            <p>
-                {{item.temperature}}°C
-            </p>
-            <small class="text-muted">Posledni meření teploty probehlo {{ item.date }}</small>
-            {% endfor %}
+            <p> {{cur_temp.temperature}}</p>
+            <small class="text-muted">Posledni meření teploty probehlo {{ cur_temp.date }}</small>
+            
         </div>
     </article>
 </div>
