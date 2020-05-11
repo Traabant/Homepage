@@ -6,10 +6,13 @@ from .scripts import consuption
 
 from scripts import radarData
 from scripts import weather as Weather
+from scripts.myTime import convert_time_from_UTC
 # from scripts import check_events
 # from scripts import radarData
 
 from django.http import JsonResponse
+
+from datetime import datetime
 
 def dev(request):
 
@@ -99,13 +102,20 @@ def get_weather_data_from_db():
         list_from_db_tomorrow.append(item)
     list_from_db_tomorrow.reverse()
 
+    # cur_temp = HomeWeather.objects.last()
+    
+    cur_temp = {
+        'temperature': HomeWeather.objects.last().temperature,
+        'date': (convert_time_from_UTC(HomeWeather.objects.last().date)).strftime("%Y-%m-%d %H:%M"),
+    }
+
     temp_in_K = {
         'temp': list_from_db_today,
         'temp_tomorrow': list_from_db_tomorrow,
         'polution': Weather.Weather().analyze_air_polution(pollution_form_db.pollution_index),
         'pollution_date': pollution_form_db.datetime,
         'polution_index': pollution_form_db.pollution_index,
-        'cur_temp':HomeWeather.objects.all().order_by('-id')[:1],
+        'cur_temp':cur_temp,
     }
 
     # converts temp data in list from K to C
@@ -116,6 +126,13 @@ def get_weather_data_from_db():
         item.weather_tomorrow = f'{(float(item.weather_tomorrow) - 273.15):.2f}'
 
     return temp_in_K
+
+# def convert_time_from_UTC(utc_dt):
+#     local_tz = pytz.timezone('Europe/Prague')
+#     local_dt = utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)
+#     return local_dt
+
+
 
 
 
